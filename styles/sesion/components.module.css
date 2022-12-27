@@ -1,0 +1,28 @@
+/* Estilos componente Usuario */
+.usuarioAvatar {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.usuarioAvatar p {
+  margin: 4px;
+}
+
+.imagenAvatar {
+  min-width: 80px;
+  min-height: 80px;
+  transition: all 0.2s ease-in-out;
+}
+
+.usuarioActivo img {
+  border: 5px solid #00bcd4;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  transform: scale(1.2);
+}
+.usuarioActivo p {
+  font-weight: bolder;
+}

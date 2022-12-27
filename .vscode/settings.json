@@ -1,3 +1,16 @@
 {
-  "cSpell.words": ["Accion", "identificate"]
+  "cSpell.words": [
+    "Accion",
+    "animacion",
+    "Animacion",
+    "caracter",
+    "contrasena",
+    "identificate",
+    "Kamila",
+    "numerico",
+    "sesion",
+    "Yolatzin"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

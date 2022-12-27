@@ -10,7 +10,7 @@ export default function page() {
   return (
     <>
       <div className={styles.container}>
-        <Link href="./identificate">
+        <Link href="./sesion">
           <img src="/next.svg" alt="Logdo" className={styles.logo} />
         </Link>
       </div>

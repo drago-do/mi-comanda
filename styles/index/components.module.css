@@ -31,7 +31,6 @@
 .swipeUpDownMenu__header__icon {
   transition: all 0.5s ease-in-out;
   font-size: 1.3rem;
-
 }
 .swipeUpDownMenu__header__title {
   text-align: center;
@@ -51,4 +50,34 @@
   overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+/* Estilos para NavigationBar */
+
+.NavigationBarContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  background-color: #fff;
+  z-index: 2;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.23);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+}
+
+.NavigationBar__icon {
+  color: rgb(0, 0, 0);
+  font-size: 2rem;
+  padding: 0.2rem;
+  width: 1em;
 }

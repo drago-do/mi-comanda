@@ -18,6 +18,8 @@
     "react-icons": "^4.7.1"
   },
   "devDependencies": {
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.26",
     "standard": "17.0.0"
   }
 }

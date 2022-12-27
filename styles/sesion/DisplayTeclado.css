@@ -1,0 +1,112 @@
+/* Display y teclado */
+.contenedor-contrasena {
+  max-width: 40%;
+  min-height: 10%;
+  padding: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.circulo-contrasena {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #000;
+  border-radius: 50%;
+  margin: 10px;
+  transition: all 0.5s;
+}
+.relleno-circulo {
+  background-color: #000;
+}
+
+.contenedor-teclado {
+  width: 80%;
+  min-height: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.fila-teclado {
+  height: 25%;
+  width: 100%;
+  border: 1px solid rgba(134, 134, 134, 0.219);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.contenedor-numerico-vacio {
+  width: 33%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.contenedor-numerico {
+  width: 33%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* animacion */
+.contenedor-numerico:active {
+  animation: pulsar 0.2s 1;
+}
+
+.animacion-error {
+  animation: error 1s ease-in-out;
+}
+.animacion-error div {
+  border-color: rgb(255, 0, 0);
+  background-color: rgb(255, 0, 0);
+}
+/* keyframes de animacion pulsar */
+@keyframes pulsar {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.1, 1.1);
+    border-radius: 30%;
+    background-color: rgba(0, 0, 0, 0.199);
+    color: white;
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* keyframes de animacion error */
+@keyframes error {
+  0% {
+    transform: translateX(-20px);
+  }
+  25% {
+    transform: translateX(20px);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  75% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+    background-color: initial;
+  }
+}
