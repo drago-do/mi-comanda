@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, Children, useRef } from "react";
-
+import axios from "axios";
+import LoadingAnimation from "./../components/LoadingAnimation";
 //* Importar componentes de la vista
 import Usuario from "./components/Usuario";
 import DisplayYTeclado from "./components/DisplayTeclado";
@@ -16,11 +17,24 @@ export default function Page() {
     "Selecciona tu usuario y coloca tu contraseña"
   );
 
+  const [listaUsuarios, setListaUsuarios] = useState(null);
+
+  useEffect(() => {
+    const urlAPI = process.env.API_URL;
+    //URL para obtener usuarios
+    const obtenerUsuariosURL = urlAPI + "user";
+    async function fetchData() {
+      const response = await axios.get(obtenerUsuariosURL);
+      setListaUsuarios(response.data);
+    }
+
+    fetchData();
+  }, []);
+
   const verificarContraseña = () => {
     //TODO: Petición a api para obtener usuario y contraseña. Si Existen redirigir a pagina correspondiente.
     if (contraseña === "5454" && usuario === "Drago") {
       console.log("yes drago");
-      
     } else if (contraseña === "5454" && usuario === "Chape") {
       console.log("yes josh");
     } else if (contraseña === "5454" && usuario === "Kamila") {
@@ -82,23 +96,18 @@ export default function Page() {
     <>
       <div className={styles.sesionContainer}>
         <div className={styles.usuariosContainer} onClick={seleccionUsuario}>
-          <Usuario nombre="Drago" estaActivo={usuario === "Drago"} avatar="1" />
-          <Usuario
-            nombre="Yolatzin"
-            estaActivo={usuario === "Yolatzin"}
-            avatar="3"
-          />
-          <Usuario
-            nombre="Arturo"
-            estaActivo={usuario === "Arturo"}
-            avatar="2"
-          />
-          <Usuario nombre="Chape" estaActivo={usuario === "Chape"} avatar="4" />
-          <Usuario
-            nombre="Kamila"
-            estaActivo={usuario === "Kamila"}
-            avatar="5"
-          />
+          {listaUsuarios ? (
+            listaUsuarios.map((usuarioActual) => (
+              <Usuario
+                nombre={usuarioActual.username}
+                estaActivo={usuario === usuarioActual.username}
+                avatar={usuarioActual.avatar}
+                key={usuarioActual._id}
+              />
+            ))
+          ) : (
+            <LoadingAnimation />
+          )}
         </div>
         <p>{mensajeUsuario}</p>
         <DisplayYTeclado
