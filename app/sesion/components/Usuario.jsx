@@ -27,7 +27,12 @@ export default function Usuario({ nombre, estaActivo, avatar }) {
   };
   return (
     <div className={usuarioActivo()}>
-      <Image className={styles.imagenAvatar} src={imgAvatar} alt={nombre} />
+      <Image
+        className={styles.imagenAvatar}
+        src={imgAvatar}
+        alt={nombre}
+        priority={true}
+      />
       <p id={nombre} className="nombre-usuario">
         {nombre}
       </p>

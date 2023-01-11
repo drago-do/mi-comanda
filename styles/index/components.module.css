@@ -76,10 +76,22 @@
 }
 
 .NavigationBar__icon {
-  color: rgb(0, 0, 0);
   font-size: 2rem;
   padding: 0.2rem;
   width: 1em;
+}
+
+/* Forzar blancos y negros para iconos */
+@media (prefers-color-scheme: light) {
+  .NavigationBar__icon {
+    color: #000;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .NavigationBar__icon {
+    color: #fff;
+  }
 }
 
 /* CSS animation component */
@@ -130,4 +142,61 @@
     transform: translateY(0px);
     box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
   }
+}
+
+/* Estilos componente bannerUsuario */
+.contenedorUsuarioBanner {
+  transition: all 0.5s ease-in-out;
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  padding: 0 30px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  background: rgba(255, 255, 255, 0.23);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+}
+
+.banner {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.imageBanner {
+  position: relative;
+}
+
+.menuUsuarioOpciones {
+  transition: all ease-in-out 0.5s;
+  position: relative;
+  background: linear-gradient(to right, #ca1919, #e06533);
+  background-color: #ca1919;
+  color: #fff;
+  font-family: Arial;
+  font-size: 18px;
+  font-weight: 800;
+  font-style: normal;
+  text-decoration: none;
+  padding: 14px 15px;
+  border: 0px solid #000;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.menuUsuarioOpciones:hover {
+  background: linear-gradient(to right, #d05454, #e37d5e);
+  background-color: #d05454;
+}
+.menuUsuarioOpciones:active {
+  transform: scale(0.95);
 }

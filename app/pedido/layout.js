@@ -1,11 +1,11 @@
 import Link from "next/link";
 import "./../../styles/globals.css";
-import NavigationBar from "./../components/NavigationBar";
+import NavigationBar from "../components/NavigationBar";
 
 export default function RootLayout({ children }) {
   return (
     <>
-      <NavigationBar tituloActividad="Inicia Sesión" />
+      <NavigationBar tituloActividad="Lista de productos" />
       {children}
     </>
   );

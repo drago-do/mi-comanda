@@ -1,0 +1,79 @@
+.contenedorCategoriasProductos {
+  height: 100vh;
+  padding: 0 5px;
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.contenedorCategoria {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.itemCategoria {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px;
+}
+.imagenNombreDescripcion {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.nombreDescripcion {
+  margin-left: 10px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: space-between;
+  justify-content: space-evenly;
+}
+
+/* Botón menos y mas animacion */
+.btn-icon-plus-minus {
+  transition: all 0.2s;
+}
+
+.btn-icon-plus-minus:active {
+  transform: translateY(-5px);
+  filter: drop-shadow (5px 5px 3px #888);
+}
+
+.btn-icon-plus-minus::after {
+  transform: translate(5px);
+}
+
+/* Para la tarjeta de información */
+.contenedorInformacion {
+  transition: all 0.2s;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 30px;
+  justify-content: space-between;
+}
+
+.contenedorInformacionIngredientes {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+}
+
+contenedorInformacionAdicionales {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+}

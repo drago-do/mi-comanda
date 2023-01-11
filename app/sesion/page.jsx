@@ -2,6 +2,8 @@
 import React, { useState, useEffect, Children, useRef } from "react";
 import axios from "axios";
 import LoadingAnimation from "./../components/LoadingAnimation";
+import Cookies from "js-cookie";
+
 //* Importar componentes de la vista
 import Usuario from "./components/Usuario";
 import DisplayYTeclado from "./components/DisplayTeclado";
@@ -32,24 +34,32 @@ export default function Page() {
   }, []);
 
   const verificarContraseña = () => {
-    //TODO: Petición a api para obtener usuario y contraseña. Si Existen redirigir a pagina correspondiente.
-    if (contraseña === "5454" && usuario === "Drago") {
-      console.log("yes drago");
-    } else if (contraseña === "5454" && usuario === "Chape") {
-      console.log("yes josh");
-    } else if (contraseña === "5454" && usuario === "Kamila") {
-      console.log("yes poly");
+    if (contraseña === usuario.password) {
+      //Guardar "usuario" en una cookie
+      guardarCookies();
+      //redirigir a pagina de pedido
+      window.location.href = "/pedido";
     } else {
-      console.log("Contraseña incorrecta");
-      setMostrarAnimacionError(true);
-      setMensajeUsuario("Usuario o contraseña incorrectos");
-      setContraseña("");
-      //espera 2 segundos y setMostrarAnimacion(false)
-      setTimeout(() => {
-        setMostrarAnimacionError(false);
-        setMensajeUsuario("Selecciona tu usuario y coloca tu contraseña");
-      }, 1200);
+      contraseñaIncorrectaAnimacion();
     }
+  };
+
+  const guardarCookies = () => {
+    Cookies.set("username", usuario.username);
+    Cookies.set("role", usuario.role);
+    Cookies.set("id", usuario._id);
+    Cookies.set("avatar", usuario.avatar);
+  };
+
+  const contraseñaIncorrectaAnimacion = () => {
+    setMostrarAnimacionError(true);
+    setMensajeUsuario("Usuario o contraseña incorrectos");
+    setContraseña("");
+    //espera 2 segundos y setMostrarAnimacion(false)
+    setTimeout(() => {
+      setMostrarAnimacionError(false);
+      setMensajeUsuario("Selecciona tu usuario y coloca tu contraseña");
+    }, 1200);
   };
 
   const seleccionUsuario = (e) => {
@@ -66,8 +76,12 @@ export default function Page() {
     if (e.target.tagName === "DIV") {
       usuarioSeleccionado = e.target.lastChild.id;
     }
-    console.log(usuarioSeleccionado);
-    setUsuario(usuarioSeleccionado);
+    //Asignar el objeto en el que listaUsuario.username y usuarioSeleccionado coincida. Guardar objeto en setUsuario.
+    let objetoUsuario = listaUsuarios.filter((usuario) => {
+      return usuario.username === usuarioSeleccionado;
+    });
+    objetoUsuario = objetoUsuario[0];
+    setUsuario(objetoUsuario);
   };
 
   if (contraseña.length >= 4) {
@@ -100,7 +114,7 @@ export default function Page() {
             listaUsuarios.map((usuarioActual) => (
               <Usuario
                 nombre={usuarioActual.username}
-                estaActivo={usuario === usuarioActual.username}
+                estaActivo={usuario.username === usuarioActual.username}
                 avatar={usuarioActual.avatar}
                 key={usuarioActual._id}
               />
