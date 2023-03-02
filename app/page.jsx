@@ -9,6 +9,7 @@ import UserBanner from "./components/UserBanner";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
+
 export default function Page() {
   const [avatar, setAvatar] = useState(null);
   const [userName, setUserName] = useState(null);

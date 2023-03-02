@@ -9,6 +9,8 @@ import {
 } from "react-icons/ai";
 import "./../../../styles/pedido/pedido.css";
 
+import { agregarProducto } from "../../cache/comanda";
+
 export default function ItemProducto({
   nombre,
   descripcion,
@@ -17,10 +19,22 @@ export default function ItemProducto({
   objeto,
 }) {
   const [mostrarInfo, setMostrarInfo] = useState(false);
-
   const handleMostrarInfo = () => {
     setMostrarInfo(!mostrarInfo);
   };
+
+  const addItemHandle = () => {
+    let fechaDeAdicione = Date.now();
+    agregarProducto(
+      fechaDeAdicione,
+      objeto._id,
+      objeto.name,
+      objeto.image,
+      objeto.price,
+      false
+    );
+  };
+
   return (
     <>
       <div className="contenedorCategoria">
@@ -41,10 +55,14 @@ export default function ItemProducto({
               display: "flex",
               maxWidth: "30%",
               justifyContent: "space-around",
+              fontSize: "3rem",
             }}
           >
-            <AiFillMinusCircle className="icon btn-icon-plus-minus" />
-            <AiFillPlusCircle className="icon btn-icon-plus-minus" />
+            <AiFillPlusCircle
+              size={50}
+              className="icon btn-icon-plus-minus"
+              onClick={addItemHandle}
+            />
           </div>
         </div>
         <InfoProducto mostrar={mostrarInfo} objeto={objeto} />

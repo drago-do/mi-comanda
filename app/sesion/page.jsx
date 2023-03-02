@@ -3,6 +3,7 @@ import React, { useState, useEffect, Children, useRef } from "react";
 import axios from "axios";
 import LoadingAnimation from "./../components/LoadingAnimation";
 import Cookies from "js-cookie";
+import { obtenerUsuarios } from "./../cache/usuarios";
 
 //* Importar componentes de la vista
 import Usuario from "./components/Usuario";
@@ -18,19 +19,14 @@ export default function Page() {
   const [mensajeUsuario, setMensajeUsuario] = useState(
     "Selecciona tu usuario y coloca tu contraseña"
   );
+  const [test, setTest] = useState(false);
 
   const [listaUsuarios, setListaUsuarios] = useState(null);
 
   useEffect(() => {
-    const urlAPI = process.env.API_URL;
-    //URL para obtener usuarios
-    const obtenerUsuariosURL = urlAPI + "user";
-    async function fetchData() {
-      const response = await axios.get(obtenerUsuariosURL);
-      setListaUsuarios(response.data);
-    }
-
-    fetchData();
+    obtenerUsuarios().then((res) => {
+      setListaUsuarios(res);
+    });
   }, []);
 
   const verificarContraseña = () => {
