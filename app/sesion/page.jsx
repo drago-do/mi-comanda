@@ -3,7 +3,6 @@ import React, { useState, useEffect, Children, useRef } from "react";
 import axios from "axios";
 import LoadingAnimation from "./../components/LoadingAnimation";
 import Cookies from "js-cookie";
-import { obtenerUsuarios } from "./../cache/usuarios";
 
 //* Importar componentes de la vista
 import Usuario from "./components/Usuario";
@@ -12,6 +11,9 @@ import DisplayYTeclado from "./components/DisplayTeclado";
 //* Importar estilos
 import styles from "./../../styles/sesion/sesion.module.css";
 
+//Importar la url de la api
+const urlAPI = process.env.API_URL;
+
 export default function Page() {
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
@@ -19,14 +21,17 @@ export default function Page() {
   const [mensajeUsuario, setMensajeUsuario] = useState(
     "Selecciona tu usuario y coloca tu contraseña"
   );
-  const [test, setTest] = useState(false);
 
   const [listaUsuarios, setListaUsuarios] = useState(null);
 
   useEffect(() => {
-    obtenerUsuarios().then((res) => {
-      setListaUsuarios(res);
-    });
+    obtenerUsuarios()
+      .then((usuarios) => {
+        setListaUsuarios(usuarios);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const verificarContraseña = () => {
@@ -128,4 +133,27 @@ export default function Page() {
       </div>
     </>
   );
+}
+
+function obtenerUsuarios() {
+  return new Promise((resolve, reject) => {
+    // Verificar si los datos existen en localStorage
+    if (localStorage.getItem("usuarios") !== null) {
+      const usuarios = JSON.parse(localStorage.getItem("usuarios"));
+      resolve(usuarios);
+    } else {
+      let usuarios;
+      // Hacer petición con axios
+      axios
+        .get(`${urlAPI}user`)
+        .then((res) => {
+          usuarios = res.data;
+          localStorage.setItem("usuarios", JSON.stringify(usuarios));
+          resolve(usuarios);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
 }

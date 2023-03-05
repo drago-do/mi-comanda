@@ -40,9 +40,12 @@ export default function ItemProducto({
       <div className="contenedorCategoria">
         <div className="itemCategoria">
           <div className="imagenNombreDescripcion" onClick={handleMostrarInfo}>
-            <img
+            <Image
               src={imagen}
               alt={nombre}
+              width={80}
+              height={80}
+              priority
               style={{ width: "80px", height: "80px", objectFit: "scale-down" }}
             />
             <div className="nombreDescripcion">
