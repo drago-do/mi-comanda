@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(`${host}/pedido`);
     }
   }
-  if (pathname === "/pedido") {
+  if (pathname.startsWith("/pedido")) {
     //Si la cookie "id" no existe, entonces redirigir a /sesion
     if (!req.cookies.has("id")) {
       return NextResponse.redirect(`${host}/sesion`);

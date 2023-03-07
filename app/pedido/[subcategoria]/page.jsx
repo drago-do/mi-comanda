@@ -90,6 +90,11 @@ export default function PageSubcategoria(props) {
       ) : (
         <LoadingAnimation />
       )}
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 }

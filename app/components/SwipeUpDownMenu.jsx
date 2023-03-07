@@ -7,12 +7,12 @@ function SwipeUpDownMenu(props) {
   const [siguienteAccion, setSiguienteAccion] = useState("abrir");
   const [existeMovimientoTouch, setExisteMovimientoTouch] = useState(null);
   //Propiedades CSS
-  const [top, setTop] = useState("90%");
+  const [top, setTop] = useState("85%");
 
   const ComponenteIcono = props.iconoSuperior;
 
-  const elementoMenu = useRef(null);
-  elementoMenu.current = document.getElementById("swipeUpDownMenu");
+  // const elementoMenu = useRef(null);
+  // elementoMenu.current = document.getElementById("swipeUpDownMenu");
 
   const handleTouchStart = (event) => {
     // Código para manejar el evento touchstart
@@ -41,7 +41,7 @@ function SwipeUpDownMenu(props) {
         setOpen(true);
         setTop("5%");
       } else {
-        setTop("90%");
+        setTop("85%");
         setOpen(false);
       }
     }
@@ -53,7 +53,7 @@ function SwipeUpDownMenu(props) {
       "swipeUpDownMenu__header__icon"
     );
     setSiguienteAccion(open ? "cerrar" : "abrir");
-    setTop(open ? "5%" : "90%");
+    setTop(open ? "5%" : "85%");
     elementoIcono.style.transform = open ? "rotate(180deg)" : "rotate(0deg)";
   }, [open]);
 
@@ -68,6 +68,7 @@ function SwipeUpDownMenu(props) {
         onTouchStart={() => handleTouchStart()}
         onTouchMove={(event) => handleTouchMove(event)}
         onTouchEnd={(event) => handleTouchEnd(event)}
+        onClick={props.onClick}
       >
         <div
           id="swipeUpDownMenu__header__icon"

@@ -14,12 +14,7 @@
 //   total: 0,
 // };
 
-var comandaActual = {
-  id: Date.now(),
-  fechaDeCreacion: new Date(),
-  productos: [],
-  total: 0,
-};
+var comandaActual;
 
 //Función que regresa el valor de "comandaActual"
 export function getComandaActual() {
@@ -28,6 +23,21 @@ export function getComandaActual() {
 
 //Función que verifica si existe una comanda en almacenamiento local. Si no existe,crea una nueva.
 function verificarComanda() {
+  // crea un nuevo objeto `Date`
+  var today = new Date();
+  // obtener la hora en la configuración regional de EE. UU.
+  var horaActual = today.toLocaleTimeString("es-MX");
+  var fechaActual = today.toLocaleString();
+  comandaActual = {
+    id: Date.now(),
+    entregado: false,
+    pagado: false,
+    nombreDeMesa: horaActual,
+    ubicacion: ["x", "y"],
+    fechaDeCreacion: fechaActual,
+    productos: [],
+    total: 0,
+  };
   if (localStorage.getItem("comandaActual") === null) {
     localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
   }
@@ -53,6 +63,7 @@ export function agregarProducto(
   };
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
   comandaActual.productos.push(producto);
+  comandaActual.entregado = false;
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
   calcularTotal();
 }
@@ -85,6 +96,13 @@ function calcularTotal() {
     (total, producto) => total + producto.precio,
     0
   );
+  localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
+}
+
+//Función que modifica el estado de la comanda actual
+export function comandaPagada() {
+  comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
+  comandaActual.pagado = true;
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
 }
 
