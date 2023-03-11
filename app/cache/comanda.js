@@ -17,10 +17,19 @@
 var comandaActual;
 
 //Función que regresa el valor de "comandaActual"
-export function getComandaActual() {
-  return JSON.parse(localStorage.getItem("comandaActual"));
+export function obtenerComandaActual() {
+  return new Promise((resolve, reject) => {
+    // Verificar si los datos existen en localStorage
+    if (localStorage.getItem("comandaActual") !== null) {
+      const comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
+      resolve(comandaActual);
+    } else {
+      reject(
+        "No hay comanda actual. Inicia tu pedido o selecciona una comanda anterior"
+      );
+    }
+  });
 }
-
 //Función que verifica si existe una comanda en almacenamiento local. Si no existe,crea una nueva.
 function verificarComanda() {
   // crea un nuevo objeto `Date`
@@ -30,12 +39,12 @@ function verificarComanda() {
   var fechaActual = today.toLocaleString();
   comandaActual = {
     id: Date.now(),
-    entregado: false,
-    pagado: false,
-    nombreDeMesa: horaActual,
-    ubicacion: ["x", "y"],
-    fechaDeCreacion: fechaActual,
-    productos: [],
+    fullDeliver: false,
+    paid: false,
+    tableName: horaActual,
+    location: ["x", "y"],
+    creationDate: fechaActual,
+    products: [],
     total: 0,
   };
   if (localStorage.getItem("comandaActual") === null) {
@@ -44,45 +53,36 @@ function verificarComanda() {
 }
 
 //Función que agrega un producto a la comanda actual
-export function agregarProducto(
-  fechaDeAdicione,
-  id_db,
-  nombre,
-  imagen,
-  precio,
-  entregado
-) {
+export function agregarProducto(creationDate, id_mongo, price, deliver) {
   verificarComanda();
   let producto = {
-    fechaDeAdicione: fechaDeAdicione,
-    id_db: id_db,
-    nombre: nombre,
-    imagen: imagen,
-    precio: precio,
-    entregado: entregado,
+    creationDate: creationDate,
+    id_mongo: id_mongo,
+    price: price,
+    deliver: deliver,
   };
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-  comandaActual.productos.push(producto);
+  comandaActual.products.push(producto);
   comandaActual.entregado = false;
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
   calcularTotal();
 }
 
 //Función que elimina un producto de la comanda actual
-export function eliminarProducto(fechaDeAdicione) {
+export function eliminarProducto(creationDate) {
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
   comandaActual.productos = comandaActual.productos.filter(
-    (producto) => producto.fechaDeAdicione !== fechaDeAdicione
+    (producto) => producto.creationDate !== creationDate
   );
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
 }
 
 //Función que modifica el estado de un producto de la comanda actual
-export function modificarEstadoProducto(fechaDeAdicione) {
+export function modificarEstadoProducto(creationDate) {
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-  comandaActual.productos = comandaActual.productos.map((producto) => {
-    if (producto.fechaDeAdicione === fechaDeAdicione) {
-      producto.entregado = !producto.entregado;
+  comandaActual.products = comandaActual.products.map((producto) => {
+    if (producto.creationDate === creationDate) {
+      producto.deliver = !producto.deliver;
     }
     return producto;
   });
@@ -92,8 +92,8 @@ export function modificarEstadoProducto(fechaDeAdicione) {
 //Función que calcula el total de la comanda actual
 function calcularTotal() {
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-  comandaActual.total = comandaActual.productos.reduce(
-    (total, producto) => total + producto.precio,
+  comandaActual.total = comandaActual.products.reduce(
+    (total, producto) => total + producto.price,
     0
   );
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
@@ -102,7 +102,7 @@ function calcularTotal() {
 //Función que modifica el estado de la comanda actual
 export function comandaPagada() {
   comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-  comandaActual.pagado = true;
+  comandaActual.paid = true;
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
 }
 

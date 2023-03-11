@@ -7,7 +7,7 @@ import ItemCategoria from "./../components/ItemCategoria";
 import ItemProducto from "./../components/ItemProducto";
 import "./../../../styles/pedido/pedido.css";
 
-import { obtenerProductosCategorias } from "./../page";
+import { obtenerProductosCategorias } from "./../../cache/productos";
 
 export default function PageSubcategoria(props) {
   const idCategory = props.params.subcategoria;

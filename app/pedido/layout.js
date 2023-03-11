@@ -10,25 +10,43 @@ import { AiFillDelete } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { getComandaActual } from "./../cache/comanda";
 
+import { obtenerProductosCategorias } from "./../cache/productos";
+import { obtenerComandaActual } from "./../cache/comanda";
+
 import "./../../styles/pedido/comandaActual.css";
 
 export default function RootLayout({ children }) {
   const [comanda, setComanda] = useState(null);
+  const [productos, setProductos] = useState(null);
 
   useEffect(() => {
+    actualizarComanda();
+    actualizarProductos();
+  }, []);
+
+  const actualizarComanda = () => {
     obtenerComandaActual()
       .then((comandaJSON) => {
         setComanda(comandaJSON);
-        console.log(comandaJSON);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
 
-  const actualizarComanda = () => {
-    console.log("Actualizando comanda");
-    setComanda(getComandaActual());
+  const actualizarProductos = () => {
+    obtenerProductosCategorias()
+      .then(([productos, categorias]) => {
+        setProductos(productos);
+        console.log(productos);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  //Método que retorna el producto con el id solicitado
+  const obtenerProducto = (id) => {
+    return productos.find((producto) => producto._id === id);
   };
 
   return (
@@ -44,19 +62,21 @@ export default function RootLayout({ children }) {
           <div className="contenedorComandaActual">
             <h2>Nombre: {comanda.nombreDeMesa}</h2>
             <h4>Ubicación: {comanda.ubicacion}</h4>
-            {comanda.productos.map((producto) => (
-              <div key={producto.id} className="producto">
+            {comanda.products.map((producto) => (
+              <div key={producto.id_mongo} className="producto">
                 <div style={{ display: "flex" }}>
                   <Image
                     width={80}
                     height={80}
-                    src={producto.imagen}
-                    alt={producto.nombre}
+                    src={obtenerProducto(producto.id_mongo).image}
+                    alt={obtenerProducto(producto.id_mongo).name}
                     style={{ objectFit: "scale-down" }}
                   />
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <p style={{ fontWeight: "bold" }}>{producto.nombre}</p>
-                    <p>${producto.precio}</p>
+                    <p style={{ fontWeight: "bold" }}>
+                      {obtenerProducto(producto.id_mongo).name}
+                    </p>
+                    <p>${obtenerProducto(producto.id_mongo).price}</p>
                   </div>
                 </div>
                 <AiFillDelete style={{ fontSize: "2rem" }} />
@@ -64,7 +84,7 @@ export default function RootLayout({ children }) {
             ))}
             <div className="totalCuenta">
               <p>Total: ${comanda.total}</p>
-              <button class="button-3" role="button">
+              <button className="button-3" role="button">
                 Pagar <BsFillCartCheckFill />
               </button>
             </div>
@@ -75,18 +95,4 @@ export default function RootLayout({ children }) {
       </SwipeUpDownMenu>
     </>
   );
-}
-
-export function obtenerComandaActual() {
-  return new Promise((resolve, reject) => {
-    // Verificar si los datos existen en localStorage
-    if (localStorage.getItem("comandaActual") !== null) {
-      const comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-      resolve(comandaActual);
-    } else {
-      reject(
-        "No hay comanda actual. Inicia tu pedido o selecciona una comanda anterior"
-      );
-    }
-  });
 }

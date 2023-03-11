@@ -25,14 +25,9 @@ export default function ItemProducto({
 
   const addItemHandle = () => {
     let fechaDeAdicione = Date.now();
-    agregarProducto(
-      fechaDeAdicione,
-      objeto._id,
-      objeto.name,
-      objeto.image,
-      objeto.price,
-      false
-    );
+    console.log("fechaDeAdicione", fechaDeAdicione);
+    console.log(objeto);
+    agregarProducto(fechaDeAdicione, objeto._id, objeto.price, false);
   };
 
   return (
