@@ -24,12 +24,37 @@ export function obtenerComandaActual() {
       const comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
       resolve(comandaActual);
     } else {
-      reject(
-        "No hay comanda actual. Inicia tu pedido o selecciona una comanda anterior"
-      );
+      reject(false);
     }
   });
 }
+
+//Función que elimina un producto de la comanda actual
+export function eliminarProducto(creationDate, reject = null) {
+  return new Promise((resolve, reject) => {
+    try {
+      comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
+      //Si comandaActual.products solo tiene un elemento, entonces eliminar toda la comanda
+      if (comandaActual.products.length <= 1) {
+        eliminarComanda();
+      } else {
+        comandaActual.products = comandaActual.products.filter(
+          (producto) => producto.creationDate !== creationDate
+        );
+        localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
+        calcularTotal();
+      }
+      resolve(true);
+    } catch (error) {
+      if (reject) {
+        reject(error);
+      } else {
+        resolve(false);
+      }
+    }
+  });
+}
+
 //Función que verifica si existe una comanda en almacenamiento local. Si no existe,crea una nueva.
 function verificarComanda() {
   // crea un nuevo objeto `Date`
@@ -66,15 +91,6 @@ export function agregarProducto(creationDate, id_mongo, price, deliver) {
   comandaActual.entregado = false;
   localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
   calcularTotal();
-}
-
-//Función que elimina un producto de la comanda actual
-export function eliminarProducto(creationDate) {
-  comandaActual = JSON.parse(localStorage.getItem("comandaActual"));
-  comandaActual.productos = comandaActual.productos.filter(
-    (producto) => producto.creationDate !== creationDate
-  );
-  localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
 }
 
 //Función que modifica el estado de un producto de la comanda actual
