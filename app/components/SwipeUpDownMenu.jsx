@@ -16,7 +16,6 @@ function SwipeUpDownMenu(props) {
 
   const handleTouchStart = (event) => {
     // Código para manejar el evento touchstart
-    console.log("Touch start");
     setOpen(!open);
   };
 

@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import InfoProducto from "./InfoProducto";
-import {
-  AiFillPlusCircle,
-  AiOutlineShoppingCart,
-  AiOutlineSubnode,
-  AiFillMinusCircle,
-} from "react-icons/ai";
+import { AiFillPlusCircle } from "react-icons/ai";
 import "./../../../styles/pedido/pedido.css";
 
-import { agregarProducto } from "../../cache/comanda";
+import { useComandaActual } from "./../../hooks/useComandaActual";
 
 export default function ItemProducto({
   nombre,
@@ -18,16 +13,17 @@ export default function ItemProducto({
   id,
   objeto,
 }) {
+  //hooks personalizados
+  const { agregarProducto } = useComandaActual();
+
   const [mostrarInfo, setMostrarInfo] = useState(false);
   const handleMostrarInfo = () => {
     setMostrarInfo(!mostrarInfo);
   };
 
   const addItemHandle = () => {
-    let fechaDeAdicione = Date.now();
-    console.log("fechaDeAdicione", fechaDeAdicione);
-    console.log(objeto);
-    agregarProducto(fechaDeAdicione, objeto._id, objeto.price, false);
+    let creationDate = Date.now();
+    agregarProducto(creationDate, objeto._id, objeto.price, false);
   };
 
   return (
@@ -45,6 +41,7 @@ export default function ItemProducto({
             />
             <div className="nombreDescripcion">
               <h3>{nombre}</h3>
+              <span style={{ color: "blue" }}>{objeto.size}</span>
               <p>{descripcion}</p>
             </div>
           </div>

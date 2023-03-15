@@ -6,7 +6,7 @@ const nextConfig = {
     allowMiddlewareResponseBody: true,
   },
   env: {
-    API_URL: "http://192.168.1.68:3001/",
+    API_URL: "http://localhost:3001/",
   },
   images: {
     remotePatterns: [
