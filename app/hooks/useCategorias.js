@@ -16,7 +16,7 @@ export function useCategorias() {
         const response = await axios.get(`${API_URL}category`);
         const nuevasCategorias = response.data;
         localStorage.setItem("categorias", JSON.stringify(nuevasCategorias));
-        setProductos(nuevasCategorias);
+        setCategorias(nuevasCategorias);
       }
     } catch (error) {
       console.error(error);

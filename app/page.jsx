@@ -11,19 +11,22 @@ import { useEffect, useState } from "react";
 import { useComandaActual } from "./hooks/useComandaActual";
 
 export default function Page() {
-  const { enviarNuevaComanda, eliminarComanda } = useComandaActual();
+  const { enviarNuevaComanda } = useComandaActual();
+
   const [avatar, setAvatar] = useState(null);
   const [userName, setUserName] = useState(null);
   const [id, setId] = useState(null);
 
   useEffect(() => {
-    //Recuperar las cookies username y avatar
+    obtenerDatosUsuario();
+    enviarNuevaComanda();
+  }, []);
+
+  const obtenerDatosUsuario = () => {
     setAvatar(Cookies.get("avatar"));
     setUserName(Cookies.get("username"));
     setId(Cookies.get("id"));
-    //Comprobar si existe nueva comanda
-    enviarNuevaComanda();
-  }, []);
+  };
 
   return (
     <>

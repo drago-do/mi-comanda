@@ -1,8 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import LoadingAnimation from "./../components/LoadingAnimation";
-import Cookies from "js-cookie";
-import axios from "axios";
 import ItemCategoria from "./components/ItemCategoria";
 import "./../../styles/pedido/pedido.css";
 

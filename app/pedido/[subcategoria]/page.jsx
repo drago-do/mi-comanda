@@ -5,8 +5,8 @@ import ItemCategoria from "./../components/ItemCategoria";
 import ItemProducto from "./../components/ItemProducto";
 import "./../../../styles/pedido/pedido.css";
 
-import { useProductos } from "./../hooks/useProductos";
-import { useCategorias } from "./../hooks/useCategorias";
+import { useProductos } from "./../../hooks/useProductos";
+import { useCategorias } from "./../../hooks/useCategorias";
 
 export default function PageSubcategoria(props) {
   const idCategory = props.params.subcategoria;

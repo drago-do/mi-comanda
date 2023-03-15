@@ -11,10 +11,12 @@ import DisplayYTeclado from "./components/DisplayTeclado";
 //* Importar estilos
 import styles from "./../../styles/sesion/sesion.module.css";
 
-//Importar la url de la api
-const urlAPI = process.env.API_URL;
+import { useUsers } from "./../hooks/useUsers";
 
 export default function Page() {
+  //Hooks personalizados
+  const { users, getUsers } = useUsers();
+
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mostrarAnimacionError, setMostrarAnimacionError] = useState(false);
@@ -22,16 +24,8 @@ export default function Page() {
     "Selecciona tu usuario y coloca tu contraseña"
   );
 
-  const [listaUsuarios, setListaUsuarios] = useState(null);
-
   useEffect(() => {
-    obtenerUsuarios()
-      .then((usuarios) => {
-        setListaUsuarios(usuarios);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getUsers();
   }, []);
 
   const verificarContraseña = () => {
@@ -78,7 +72,7 @@ export default function Page() {
       usuarioSeleccionado = e.target.lastChild.id;
     }
     //Asignar el objeto en el que listaUsuario.username y usuarioSeleccionado coincida. Guardar objeto en setUsuario.
-    let objetoUsuario = listaUsuarios.filter((usuario) => {
+    let objetoUsuario = users.filter((usuario) => {
       return usuario.username === usuarioSeleccionado;
     });
     objetoUsuario = objetoUsuario[0];
@@ -111,8 +105,8 @@ export default function Page() {
     <>
       <div className={styles.sesionContainer}>
         <div className={styles.usuariosContainer} onClick={seleccionUsuario}>
-          {listaUsuarios ? (
-            listaUsuarios.map((usuarioActual) => (
+          {users ? (
+            users.map((usuarioActual) => (
               <Usuario
                 nombre={usuarioActual.username}
                 estaActivo={usuario.username === usuarioActual.username}
@@ -133,27 +127,4 @@ export default function Page() {
       </div>
     </>
   );
-}
-
-function obtenerUsuarios() {
-  return new Promise((resolve, reject) => {
-    // Verificar si los datos existen en localStorage
-    if (localStorage.getItem("usuarios") !== null) {
-      const usuarios = JSON.parse(localStorage.getItem("usuarios"));
-      resolve(usuarios);
-    } else {
-      let usuarios;
-      // Hacer petición con axios
-      axios
-        .get(`${urlAPI}user`)
-        .then((res) => {
-          usuarios = res.data;
-          localStorage.setItem("usuarios", JSON.stringify(usuarios));
-          resolve(usuarios);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  });
 }

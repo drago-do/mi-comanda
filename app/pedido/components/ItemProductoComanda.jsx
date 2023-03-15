@@ -5,37 +5,23 @@ import Image from "next/image";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 
-import { useProductos } from "./../hooks/useProductos";
+import { useProductos } from "./../../hooks/useProductos";
 import { useComandaActual } from "./../../hooks/useComandaActual";
 
 import "./../../../styles/pedido/comandaActual.css";
 
 export default function ItemProductoComanda({ update }) {
   //Custom hook.
-  var { obtenerComandaActual, eliminarProducto } = useComandaActual();
+  var { comandaActual, obtenerComandaActual, eliminarProducto } =
+    useComandaActual();
   const { productos, obtenerProductos } = useProductos();
 
-  const [comanda, setComanda] = useState(null);
-  //!TODO resolver problema comanda
   useEffect(() => {
     obtenerProductos();
   }, []);
 
   useEffect(() => {
-    Promise.all([obtenerComandaActual(), obtenerProductosCategorias()]).then(
-      ([comanda, [productos, categorias]]) => {
-        setComanda(comanda);
-        setProductos(productos);
-      }
-    );
-  }, []);
-
-  useEffect(() => {
-    console.log("Actualizando");
-    obtenerComandaActual().then((comanda) => setComanda(comanda));
-    obtenerProductosCategorias().then(([productos, categorias]) =>
-      setProductos(productos)
-    );
+    obtenerComandaActual();
   }, [update]);
 
   //Método que retorna el producto con el id solicitado
@@ -52,12 +38,12 @@ export default function ItemProductoComanda({ update }) {
   };
   return (
     <>
-      {comanda && productos ? (
+      {comandaActual && productos ? (
         <>
           <div className="contenedorComandaActual">
-            <h2>Nombre: {comanda.tableName}</h2>
-            <h4>Ubicación: {comanda.location}</h4>
-            {comanda.products.map((producto, index) => (
+            <h2>Nombre: {comandaActual.tableName}</h2>
+            <h4>Ubicación: {comandaActual.location}</h4>
+            {comandaActual.products.map((producto, index) => (
               <Producto
                 index={index}
                 key={producto.creationDate}
@@ -68,7 +54,7 @@ export default function ItemProductoComanda({ update }) {
             ))}
           </div>
           <div className="totalCuenta">
-            <p>Total: ${comanda.total}</p>
+            <p>Total: ${comandaActual.total}</p>
             <button className="button-3" role="button">
               Pagar <BsFillCartCheckFill />
             </button>

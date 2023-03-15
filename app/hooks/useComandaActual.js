@@ -7,6 +7,21 @@ const urlAPI = process.env.API_URL;
 export function useComandaActual() {
   const [comandaActual, setComandaActual] = useState(null);
 
+  const obtenerComandaActual = async () => {
+    try {
+      const cachedComanda = JSON.parse(localStorage.getItem("comandaActual"));
+      if (cachedComanda) {
+        setComandaActual(cachedComanda);
+      } else {
+        setComandaActual(null);
+      }
+    } catch (error) {
+      console.error(error);
+      setComandaActual(null);
+    }
+  };
+
+
   const agregarProducto = (creationDate, id_mongo, price, deliver) => {
     verificarComanda();
     let producto = {
@@ -121,19 +136,6 @@ export function useComandaActual() {
       };
       localStorage.setItem("comandaActual", JSON.stringify(comanda));
     }
-  };
-
-  const obtenerComandaActual = () => {
-    //Promesa para obtener la comanda actual
-    return new Promise((resolve, reject) => {
-      let comanda = JSON.parse(localStorage.getItem("comandaActual"));
-      if (comanda) {
-        setComandaActual(comanda);
-        resolve(comanda);
-      } else {
-        resolve(null);
-      }
-    });
   };
 
   const enviarNuevaComanda = () => {
