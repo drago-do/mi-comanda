@@ -6,7 +6,7 @@ const nextConfig = {
     allowMiddlewareResponseBody: true,
   },
   env: {
-    API_URL: "http://localhost:3001/",
+    API_URL: "https://mi-negocio-evom7sog1-drago-do.vercel.app/",
   },
   images: {
     remotePatterns: [

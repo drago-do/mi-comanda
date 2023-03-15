@@ -5,7 +5,7 @@ import Image from "next/image";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 
-import { obtenerProductosCategorias } from "./../../cache/productos";
+import { useProductos } from "./../hooks/useProductos";
 import { useComandaActual } from "./../../hooks/useComandaActual";
 
 import "./../../../styles/pedido/comandaActual.css";
@@ -13,9 +13,13 @@ import "./../../../styles/pedido/comandaActual.css";
 export default function ItemProductoComanda({ update }) {
   //Custom hook.
   var { obtenerComandaActual, eliminarProducto } = useComandaActual();
+  const { productos, obtenerProductos } = useProductos();
 
   const [comanda, setComanda] = useState(null);
-  const [productos, setProductos] = useState(null);
+  //!TODO resolver problema comanda
+  useEffect(() => {
+    obtenerProductos();
+  }, []);
 
   useEffect(() => {
     Promise.all([obtenerComandaActual(), obtenerProductosCategorias()]).then(

@@ -6,23 +6,16 @@ import axios from "axios";
 import ItemCategoria from "./components/ItemCategoria";
 import "./../../styles/pedido/pedido.css";
 
-import { obtenerProductosCategorias } from "./../cache/productos";
-
-
+import { useProductos } from "./../hooks/useProductos";
+import { useCategorias } from "./../hooks/useCategorias";
 
 export default function Page() {
-  const [categorias, setCategorias] = useState(null);
-  const [productos, setProductos] = useState(null);
+  const { categorias, obtenerCategorias } = useCategorias();
+  const { productos, obtenerProductos } = useProductos();
 
   useEffect(() => {
-    obtenerProductosCategorias()
-      .then(([productos, categorias]) => {
-        setProductos(productos);
-        setCategorias(categorias);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    obtenerProductos();
+    obtenerCategorias();
   }, []);
 
   return (
@@ -49,7 +42,7 @@ export default function Page() {
             )
         )
       ) : (
-        <LoadingAnimation key="99499" />
+        <LoadingAnimation />
       )}
       <br />
       <br />

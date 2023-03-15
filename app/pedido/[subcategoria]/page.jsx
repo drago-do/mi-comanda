@@ -5,25 +5,19 @@ import ItemCategoria from "./../components/ItemCategoria";
 import ItemProducto from "./../components/ItemProducto";
 import "./../../../styles/pedido/pedido.css";
 
-import { obtenerProductosCategorias } from "./../../cache/productos";
+import { useProductos } from "./../hooks/useProductos";
+import { useCategorias } from "./../hooks/useCategorias";
 
 export default function PageSubcategoria(props) {
   const idCategory = props.params.subcategoria;
-  //Variable de entorno API_URL
-  const API_URL = process.env.API_URL;
-  const [categorias, setCategorias] = useState(null);
-  const [productos, setProductos] = useState(null);
   const [categoriaActual, setCategoriaActual] = useState(null);
 
+  const { categorias, obtenerCategorias } = useCategorias();
+  const { productos, obtenerProductos } = useProductos();
+
   useEffect(() => {
-    obtenerProductosCategorias()
-      .then(([productos, categorias]) => {
-        setProductos(productos);
-        setCategorias(categorias);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    obtenerProductos();
+    obtenerCategorias();
   }, []);
 
   useEffect(() => {
