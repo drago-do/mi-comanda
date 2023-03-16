@@ -1,17 +1,23 @@
 "use client";
 import React from "react";
-import Link from "next/link";
-import styles from "./../styles/index/index.module.css";
-import SwipeUpDownMenu from "./components/SwipeUpDownMenu";
-import { AiFillCaretUp } from "react-icons/ai";
-import UserBanner from "./components/UserBanner";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+
+import Link from "next/link";
+import Cookies from "js-cookie";
+
+import ListaComandasGlobales from "./components/ListaComandasGlobales";
+import UserBanner from "./components/UserBanner";
+import SwipeUpDownMenu from "./components/SwipeUpDownMenu";
 
 import { useComandaActual } from "./hooks/useComandaActual";
 
+import { AiFillCaretUp } from "react-icons/ai";
+import styles from "./../styles/index/index.module.css";
+
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();
+
+  const [update, setUpdate] = useState(false);
 
   const [avatar, setAvatar] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -40,32 +46,9 @@ export default function Page() {
       <SwipeUpDownMenu
         tituloMenu="Historial de pedidos"
         iconoSuperior={AiFillCaretUp}
+        onClick={() => setUpdate(!update)}
       >
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
-        <h1>Hola</h1>
+        <ListaComandasGlobales update={update} />
       </SwipeUpDownMenu>
     </>
   );

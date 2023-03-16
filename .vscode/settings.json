@@ -18,6 +18,7 @@
     "numerico",
     "sesion",
     "subcategoria",
+    "Tolal",
     "Yolatzin"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
