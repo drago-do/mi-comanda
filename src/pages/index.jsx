@@ -38,9 +38,11 @@ export default function Page() {
       {id ? <UserBanner avatar={avatar} username={userName} /> : ""}
 
       <div className={styles.container}>
-        <Link href="./sesion/iniciarSesion">
-          <img src="/next.svg" alt="Logo" className={styles.logo} />
-        </Link>
+        <div className={styles.containerLogo}>
+          <Link href="./sesion/iniciarSesion">
+            <img src="/logoC.png" alt="Logo" className={styles.logo} />
+          </Link>
+        </div>
       </div>
       <SwipeUpDownMenu
         tituloMenu="Historial de pedidos"

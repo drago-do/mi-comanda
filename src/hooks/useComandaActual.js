@@ -21,7 +21,6 @@ export function useComandaActual() {
     }
   };
 
-
   const agregarProducto = (creationDate, id_mongo, price, deliver) => {
     verificarComanda();
     let producto = {
@@ -144,6 +143,7 @@ export function useComandaActual() {
       if (localStorage.getItem("comandaActual") !== null) {
         const nuevaComanda = JSON.parse(localStorage.getItem("comandaActual"));
         // Verificar si la comanda tiene productos
+        nuevaComanda && reject("No hay comanda");
         if (nuevaComanda.products.length > 0) {
           //Enviar comanda a base de datos
           axios
