@@ -1,14 +1,12 @@
-"use client";
 import { useState } from "react";
 
 import { AiFillCaretUp } from "react-icons/ai";
 
-import NavigationBar from "../components/NavigationBar";
-import SwipeUpDownMenu from "../components/SwipeUpDownMenu";
+import NavigationBar from "./../../components/NavigationBar";
+import SwipeUpDownMenu from "./../../components/SwipeUpDownMenu";
 import ItemProductoComanda from "./components/ItemProductoComanda";
-import "./../../styles/globals.css";
 
-export default function RootLayout({ children }) {
+export default function IniciarPedidoLayout({ children }) {
   const [update, setUpdate] = useState(false);
   return (
     <>

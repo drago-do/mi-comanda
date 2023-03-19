@@ -1,7 +1,5 @@
-"use client";
 import React, { useState, useEffect, Children, useRef } from "react";
-import axios from "axios";
-import LoadingAnimation from "./../components/LoadingAnimation";
+import LoadingAnimation from "../../components/LoadingAnimation";
 import Cookies from "js-cookie";
 
 //* Importar componentes de la vista
@@ -9,11 +7,11 @@ import Usuario from "./components/Usuario";
 import DisplayYTeclado from "./components/DisplayTeclado";
 
 //* Importar estilos
-import styles from "./../../styles/sesion/sesion.module.css";
+import styles from "./../../../styles/sesion/sesion.module.css";
 
-import { useUsers } from "./../hooks/useUsers";
+import { useUsers } from "../../hooks/useUsers";
 
-export default function Page() {
+export default function IniciarSesion() {
   //Hooks personalizados
   const { users, getUsers } = useUsers();
 
@@ -33,7 +31,7 @@ export default function Page() {
       //Guardar "usuario" en una cookie
       guardarCookies();
       //redirigir a pagina de pedido
-      window.location.href = "/pedido";
+      window.location.href = "/pedido/iniciarPedido";
     } else {
       contraseñaIncorrectaAnimacion();
     }

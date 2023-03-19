@@ -1,18 +1,17 @@
-"use client";
 import React from "react";
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import Cookies from "js-cookie";
 
-import ListaComandasGlobales from "./components/ListaComandasGlobales";
-import UserBanner from "./components/UserBanner";
-import SwipeUpDownMenu from "./components/SwipeUpDownMenu";
+import ListaComandasGlobales from "../components/ListaComandasGlobales";
+import UserBanner from "../components/UserBanner";
+import SwipeUpDownMenu from "../components/SwipeUpDownMenu";
 
-import { useComandaActual } from "./hooks/useComandaActual";
+import { useComandaActual } from "../hooks/useComandaActual";
 
 import { AiFillCaretUp } from "react-icons/ai";
-import styles from "./../styles/index/index.module.css";
+import styles from "./../../styles/index/index.module.css";
 
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();
@@ -39,7 +38,7 @@ export default function Page() {
       {id ? <UserBanner avatar={avatar} username={userName} /> : ""}
 
       <div className={styles.container}>
-        <Link href="./sesion">
+        <Link href="./sesion/iniciarSesion">
           <img src="/next.svg" alt="Logo" className={styles.logo} />
         </Link>
       </div>

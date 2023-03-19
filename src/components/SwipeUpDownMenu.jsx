@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect, Children, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./../../styles/index/components.module.css";
 
 function SwipeUpDownMenu(props) {

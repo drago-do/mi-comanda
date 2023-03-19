@@ -1,6 +1,5 @@
 import Link from "next/link";
-import "./../../styles/globals.css";
-import NavigationBar from "./../components/NavigationBar";
+import NavigationBar from "../../components/NavigationBar";
 
 export default function RootLayout({ children }) {
   return (

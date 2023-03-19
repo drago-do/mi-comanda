@@ -1,6 +1,5 @@
 import React from "react";
 import { FaBackspace } from "react-icons/fa";
-import "./../../../styles/sesion/DisplayTeclado.css";
 
 export default function DisplayYTeclado({
   caracteres,

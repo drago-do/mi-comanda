@@ -5,10 +5,9 @@ import Image from "next/image";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 
-import { useProductos } from "./../../hooks/useProductos";
-import { useComandaActual } from "./../../hooks/useComandaActual";
+import { useProductos } from "./../../../hooks/useProductos";
+import { useComandaActual } from "./../../../hooks/useComandaActual";
 
-import "./../../../styles/pedido/comandaActual.css";
 
 export default function ItemProductoComanda({ update }) {
   //Custom hook.

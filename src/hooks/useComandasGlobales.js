@@ -27,7 +27,7 @@ export function useComandasGlobales() {
       //Guardar comanda actual el almacenamiento local
       localStorage.setItem("comandaActual", JSON.stringify(comandaActual));
       //Redirigir a "/pedido"
-      window.location.href = "/pedido";
+      window.location.href = "/pedido/iniciarPedido";
     });
   };
 

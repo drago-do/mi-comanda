@@ -2,11 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    appDir: true,
     allowMiddlewareResponseBody: true,
   },
   env: {
-    API_URL: "http://192.168.1.68:3001/",
+    API_URL: "http://192.168.1.69:3001/",
   },
   images: {
     remotePatterns: [

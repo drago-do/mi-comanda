@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import Image from "next/image";
 import InfoProducto from "./InfoProducto";
 import { AiFillPlusCircle } from "react-icons/ai";
-import "./../../../styles/pedido/pedido.css";
 
-import { useComandaActual } from "./../../hooks/useComandaActual";
+import { useComandaActual } from "./../../../hooks/useComandaActual";
 
 export default function ItemProducto({
   nombre,
   descripcion,
+  price,
   imagen,
+  size,
   id,
-  objeto,
+  ingredients,
+  units,
 }) {
   //hooks personalizados
   const { agregarProducto } = useComandaActual();
@@ -23,7 +25,7 @@ export default function ItemProducto({
 
   const addItemHandle = () => {
     let creationDate = Date.now();
-    agregarProducto(creationDate, objeto._id, objeto.price, false);
+    agregarProducto(creationDate, id, price, false);
   };
 
   return (
@@ -41,7 +43,7 @@ export default function ItemProducto({
             />
             <div className="nombreDescripcion">
               <h3>{nombre}</h3>
-              <span style={{ color: "blue" }}>{objeto.size}</span>
+              <span style={{ color: "blue" }}>{size}</span>
               <p>{descripcion}</p>
             </div>
           </div>
@@ -60,7 +62,12 @@ export default function ItemProducto({
             />
           </div>
         </div>
-        <InfoProducto mostrar={mostrarInfo} objeto={objeto} />
+        <InfoProducto
+          mostrar={mostrarInfo}
+          ingredients={ingredients}
+          price={price}
+          units={units}
+        />
       </div>
     </>
   );

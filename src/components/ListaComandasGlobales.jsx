@@ -1,11 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { AiFillEdit } from "react-icons/ai";
 
 import { useComandasGlobales } from "./../hooks/useComandasGlobales";
 
-import "./../../styles/index/ListaComandasGlobales.css";
+import styles from "./../../styles/index/ListaComandasGlobales.module.css";
 
 export default function ListaComandasGlobales({ update }) {
   const { comandasGlobales, obtenerComandasGlobales } = useComandasGlobales();
@@ -15,8 +15,8 @@ export default function ListaComandasGlobales({ update }) {
   }, [update]);
 
   return (
-    <div className="mainContainer">
-      <div className="itemComandasContainer">
+    <div className={styles.mainContainer}>
+      <div className={styles.itemComandasContainer}>
         {/* comandas activas( pendiente, entregado) */}
         {comandasGlobales &&
           comandasGlobales.map((comanda) => {
@@ -36,7 +36,7 @@ export default function ListaComandasGlobales({ update }) {
             }
           })}
       </div>
-      <div className="itemComandasContainer">
+      <div className={styles.itemComandasContainer}>
         {/* comandas finalizadas - pagadas*/}
         {comandasGlobales &&
           comandasGlobales.map((comanda) => {
@@ -70,24 +70,24 @@ const ItemComandaGlobal = ({
 }) => {
   const { editarComandaGlobal } = useComandasGlobales();
   return (
-    <div className="itemContainerMainInfo">
-      <div className="locationContainer">{location}</div>
+    <div className={styles.itemContainerMainInfo}>
+      <div className={styles.locationContainer}>{location}</div>
       <div style={{ width: "60%" }}>
         <h2 style={{ marginBottom: "5px" }}>{tableName}</h2>
-        <div className="containerEstadoTotal">
+        <div className={styles.containerEstadoTotal}>
           <p
-            className={`textEstadoTotal ${
-              fullDeliver ? "fullDeliver" : "noFullDeliver"
+            className={`${styles.textEstadoTotal} ${
+              fullDeliver ? styles.fullDeliver : styles.noFullDeliver
             }`}
           >
             {paid ? "Pagado" : fullDeliver ? "Entregado" : "Pendiente"}
           </p>
-          <p className="textEstadoTotal total">${total}</p>
+          <p className={(styles.textEstadoTotal, styles.total)}>${total}</p>
         </div>
       </div>
       <div
-        className="locationContainer"
-        onClick={() => editarComandaGlobal(id)}
+        className={styles.locationContainer}
+        onClick={() => !paid && editarComandaGlobal(id)}
       >
         {!paid && <AiFillEdit />}
       </div>
