@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const host = "http://localhost:3000";
+  const host = "https://mi-comanda.vercel.app";
 
   if (pathname === "/sesion/iniciarSesion") {
     //Si la cookie "id" existe, entonces redirigir a /pedido
