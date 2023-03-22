@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const urlAPI_local = "http://localhost:3000/api/";
+const urlAPI = process.env.API_URL;
 
 export function useComandasGlobales() {
   const [comandasGlobales, setComandasGlobales] = useState(null);
@@ -9,7 +9,7 @@ export function useComandasGlobales() {
   const obtenerComandasGlobales = async () => {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${urlAPI_local}obtenerComandas`)
+        .get(`${urlAPI}order`)
         .then((res) => {
           console.log(res);
           setComandasGlobales(res.data);

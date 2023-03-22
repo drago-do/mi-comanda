@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import styles from "./../../styles/index/components.module.css";
+import styles from "./../styles/index/components.module.css";
 import Cookies from "js-cookie";
 
 //* Importar imágenes avatars Default

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./../../styles/index/components.module.css";
+import styles from "./../styles/index/components.module.css";
 
 function SwipeUpDownMenu(props) {
   const [open, setOpen] = useState(false);

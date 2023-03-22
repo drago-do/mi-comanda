@@ -9,7 +9,7 @@ import avatar4 from "./../../../../public/avatarDefault/avatar4.png";
 import avatar5 from "./../../../../public/avatarDefault/avatar5.png";
 import avatar6 from "./../../../../public/avatarDefault/avatar6.png";
 
-import styles from "./../../../../styles/sesion/components.module.css";
+import styles from "./../../../styles/sesion/components.module.css";
 
 const avatarDefault = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
 

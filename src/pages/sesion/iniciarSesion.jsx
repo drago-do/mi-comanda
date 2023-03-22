@@ -7,7 +7,7 @@ import Usuario from "./components/Usuario";
 import DisplayYTeclado from "./components/DisplayTeclado";
 
 //* Importar estilos
-import styles from "./../../../styles/sesion/sesion.module.css";
+import styles from "./../../styles/sesion/sesion.module.css";
 
 import { useUsers } from "../../hooks/useUsers";
 

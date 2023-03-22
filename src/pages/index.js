@@ -11,7 +11,7 @@ import SwipeUpDownMenu from "../components/SwipeUpDownMenu";
 import { useComandaActual } from "../hooks/useComandaActual";
 
 import { AiFillCaretUp } from "react-icons/ai";
-import styles from "./../../styles/index/index.module.css";
+import styles from "./../styles/index/index.module.css";
 
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();

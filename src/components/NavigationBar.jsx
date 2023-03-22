@@ -1,9 +1,8 @@
-"use client";
 import React from "react";
-import { AiOutlineRollback, AiOutlineHome } from "react-icons/ai";
+import { HiArrowLeft, HiHome } from "react-icons/hi";
 import Link from "next/link";
 
-import styles from "./../../styles/index/components.module.css";
+import styles from "./../styles/index/components.module.css";
 
 export default function NavigationBar({ tituloActividad }) {
   const handleClick = () => {
@@ -13,11 +12,11 @@ export default function NavigationBar({ tituloActividad }) {
   return (
     <div className={styles.NavigationBarContainer}>
       <div onClick={handleClick}>
-        <AiOutlineRollback className={styles.NavigationBar__icon} />
+        <HiArrowLeft className={styles.NavigationBar__icon} />
       </div>
-      <h3>{tituloActividad}</h3>
+      <Link href={"/pedido/iniciarPedido"}>{tituloActividad}</Link>
       <Link href="/">
-        <AiOutlineHome className={styles.NavigationBar__icon} />
+        <HiHome className={styles.NavigationBar__icon} />
       </Link>
     </div>
   );
