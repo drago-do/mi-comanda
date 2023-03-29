@@ -43,9 +43,7 @@ export default function PageSubcategoria(props) {
         }}
       >
         {categoriaActual && (
-          <h1 style={{ marginLeft: "10px", marginBottom: "20px" }}>
-            Estas en {categoriaActual.name}
-          </h1>
+          <h1 className="tituloDeCategoria">Estas en {categoriaActual.name}</h1>
         )}
         {categorias ? (
           categorias.map(
@@ -87,11 +85,6 @@ export default function PageSubcategoria(props) {
         ) : (
           <LoadingAnimation />
         )}
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </IniciarPedidoLayout>
   );

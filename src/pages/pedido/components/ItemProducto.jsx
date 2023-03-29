@@ -39,22 +39,15 @@ export default function ItemProducto({
               width={80}
               height={80}
               priority
-              style={{ width: "80px", height: "80px", objectFit: "scale-down" }}
+              className="imagenProductoCategoria"
             />
             <div className="nombreDescripcion">
-              <h3>{nombre}</h3>
+              <h3 className="productoTitulo">{nombre}</h3>
               <span style={{ color: "blue" }}>{size}</span>
               <p>{descripcion}</p>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              maxWidth: "30%",
-              justifyContent: "space-around",
-              fontSize: "3rem",
-            }}
-          >
+          <div className="icono" style={{ background: "var(--background)" }}>
             <AiFillPlusCircle
               size={50}
               className="icon btn-icon-plus-minus"

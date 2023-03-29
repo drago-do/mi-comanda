@@ -4,15 +4,19 @@ import Image from "next/image";
 
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
+import { HiLocationMarker } from "react-icons/hi";
 
 import { useProductos } from "./../../../hooks/useProductos";
 import { useComandaActual } from "./../../../hooks/useComandaActual";
 
-
 export default function ItemProductoComanda({ update }) {
   //Custom hook.
-  var { comandaActual, obtenerComandaActual, eliminarProducto } =
-    useComandaActual();
+  var {
+    comandaActual,
+    obtenerComandaActual,
+    eliminarProducto,
+    cambiarNombreMesa,
+  } = useComandaActual();
   const { productos, obtenerProductos } = useProductos();
 
   useEffect(() => {
@@ -31,17 +35,29 @@ export default function ItemProductoComanda({ update }) {
 
   //Eliminar producto de la comanda
   const deleteItemHandle = (creationDate) => {
-    eliminarProducto(creationDate).then(
-      (comanda) => setComanda(comanda) && console.log(comanda)
-    );
+    eliminarProducto(creationDate).then(obtenerComandaActual());
   };
+
   return (
     <>
       {comandaActual && productos ? (
         <>
           <div className="contenedorComandaActual">
-            <h2>Nombre: {comandaActual.tableName}</h2>
-            <h4>Ubicación: {comandaActual.location}</h4>
+            <div className="infoPrincipal">
+              <div>
+                <h3 style={{ fontSize: "var(--font-h4-size)" }}>
+                  Nombre de la mesa:
+                </h3>
+                <input
+                  className="inputMesa"
+                  defaultValue={comandaActual.tableName}
+                  onBlur={(evt) => cambiarNombreMesa(evt.target.value)}
+                />
+              </div>
+              <div className="icono">
+                <HiLocationMarker />
+              </div>
+            </div>
             {comandaActual.products.map((producto, index) => (
               <Producto
                 index={index}
@@ -55,7 +71,7 @@ export default function ItemProductoComanda({ update }) {
           <div className="totalCuenta">
             <p>Total: ${comandaActual.total}</p>
             <button className="button-3" role="button">
-              Pagar <BsFillCartCheckFill />
+              <BsFillCartCheckFill />
             </button>
           </div>
         </>
@@ -79,38 +95,33 @@ export default function ItemProductoComanda({ update }) {
 const Producto = ({ index, producto, obtenerProducto, deleteItemHandle }) => {
   return (
     <div key={producto.creationDate} className="producto">
-      <div
-        style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
-      >
-        <p style={{ fontSize: "1rem", marginRight: ".5rem" }}>{index + 1}</p>
+      <div className="infoProducto">
+        <p className="productoIndex">{index + 1}</p>
         <Image
-          width={50}
-          height={50}
+          width={60}
+          height={60}
           src={obtenerProducto(producto.id_mongo).image}
           alt={obtenerProducto(producto.id_mongo).name}
-          style={{ objectFit: "scale-down", marginRight: "10px" }}
+          className="productoImagen"
         />
-        <div>
-          <p
-            style={{
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              marginBottom: "1rem",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
-          >
+        <div className="textoProducto">
+          <p className="productoTitulo">
             {obtenerProducto(producto.id_mongo).name}
           </p>
-          <p>
-            ${obtenerProducto(producto.id_mongo).price}{" "}
-            <span style={{ color: "blue" }}>
+          <div className="containerEstado">
+            <p className="textPrecioTam precio">
+              ${obtenerProducto(producto.id_mongo).price}{" "}
+            </p>
+            <p className="textPrecioTam tam">
               {obtenerProducto(producto.id_mongo).size}
-            </span>{" "}
-          </p>
+            </p>
+          </div>
         </div>
       </div>
-      <div onClick={() => deleteItemHandle(producto.creationDate)}>
+      <div
+        onClick={() => deleteItemHandle(producto.creationDate)}
+        className="icono"
+      >
         <AiFillDelete style={{ fontSize: "2rem" }} />
       </div>
     </div>

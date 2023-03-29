@@ -166,6 +166,19 @@ export function useComandaActual() {
     });
   };
 
+  const cambiarNombreMesa = (nuevoNombreMesa) => {
+    return new Promise((resolve, reject) => {
+      let comanda = JSON.parse(localStorage.getItem("comandaActual"));
+      comanda.tableName = nuevoNombreMesa;
+      localStorage.setItem("comandaActual", JSON.stringify(comanda));
+      if (comanda) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  };
+
   return {
     comandaActual,
     obtenerComandaActual,
@@ -175,5 +188,6 @@ export function useComandaActual() {
     comandaPagada,
     modificarEstadoProducto,
     enviarNuevaComanda,
+    cambiarNombreMesa,
   };
 }

@@ -17,6 +17,7 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  background-color: var(--background);
 }
 
 .locationContainer {
@@ -26,7 +27,7 @@
   justify-content: center;
   width: 60px;
   height: 60px;
-  background-color: var(--background);
+  background-color: var(--background-secondary);
   color: var(--foreground);
   font-size: var(--icon-size);
 }

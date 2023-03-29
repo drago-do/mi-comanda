@@ -19,10 +19,6 @@ export default function IniciarPedido() {
     <IniciarPedidoLayout>
       <div
         className="contenedorCategoriasProductos"
-        style={{
-          alignItems: categorias ? "stretch" : "center",
-          justifyContent: categorias ? "flex-start" : "center",
-        }}
       >
         {categorias ? (
           categorias.map(
@@ -42,11 +38,6 @@ export default function IniciarPedido() {
         ) : (
           <LoadingAnimation />
         )}
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </IniciarPedidoLayout>
   );
