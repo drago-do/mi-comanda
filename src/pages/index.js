@@ -40,7 +40,7 @@ export default function Page() {
       <div className={styles.container}>
         <div className={styles.containerLogo}>
           <Link href="./sesion/iniciarSesion">
-            <img src="/next.svg" alt="Logo" className={styles.logo} />
+            <img src="/logoC.png" alt="Logo" className={styles.logo} />
           </Link>
         </div>
       </div>
