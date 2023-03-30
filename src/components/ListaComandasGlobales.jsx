@@ -20,7 +20,7 @@ export default function ListaComandasGlobales({ update }) {
       {comandasGlobales &&
         comandasGlobales.map((comanda) => {
           //Verificar si la comanda esta activa (comanda.paid == false)
-          if (!comanda.paid) {
+          if (comanda.paid !== "true" || !comanda.fullDeliver) {
             return (
               <ItemComandaGlobal
                 key={comanda._id}
@@ -29,29 +29,34 @@ export default function ListaComandasGlobales({ update }) {
                 location={comanda.location}
                 fullDeliver={comanda.fullDeliver}
                 total={comanda.total}
+                paid={comanda.paid}
                 fullObjet={comanda}
               />
             );
           }
         })}
       {/* comandas finalizadas - pagadas*/}
+      <div className={styles.separator}>
+        <hr className={styles.line} />
+        <p className={styles.textoSeparador}>Comandas finalizadas</p>
+        <hr className={styles.line} />
+      </div>
       {comandasGlobales &&
-        comandasGlobales.map((comanda) => {
-          //Verificar si la comanda esta activa (comanda.paid == false)
-          if (comanda.paid) {
-            return (
-              <ItemComandaGlobal
-                key={comanda._id}
-                id={comanda.id}
-                tableName={comanda.tableName}
-                location={comanda.location}
-                fullDeliver={comanda.fullDeliver}
-                paid={comanda.paid}
-                total={comanda.total}
-              />
-            );
-          }
-        })}
+        comandasGlobales
+          .filter((comanda) => comanda.paid === "true" && comanda.fullDeliver)
+          .reverse()
+          .slice(0, 5)
+          .map((comanda) => (
+            <ItemComandaGlobal
+              key={comanda._id}
+              id={comanda.id}
+              tableName={comanda.tableName}
+              location={comanda.location}
+              fullDeliver={comanda.fullDeliver}
+              paid={comanda.paid}
+              total={comanda.total}
+            />
+          ))}
     </div>
   );
 }
@@ -75,10 +80,26 @@ const ItemComandaGlobal = ({
         <div className={styles.containerEstadoTotal}>
           <p
             className={`${styles.textEstadoTotal} ${
-              fullDeliver ? styles.fullDeliver : styles.noFullDeliver
+              fullDeliver ? styles.full : styles.noFull
             }`}
           >
-            {paid ? "Pagado" : fullDeliver ? "Entregado" : "Pendiente"}
+            {fullDeliver ? "Entregado" : "Pendiente"}
+          </p>
+
+          <p
+            className={`${styles.textEstadoTotal} ${
+              paid === "true"
+                ? styles.full
+                : paid === "wait"
+                ? styles.wait
+                : styles.noFull
+            }`}
+          >
+            {paid === "true"
+              ? "Pagado"
+              : paid === "wait"
+              ? "Espera"
+              : "Falta pagar"}
           </p>
           <p
             className={`${styles.textEstadoTotal} ${styles.total}`}
@@ -87,9 +108,9 @@ const ItemComandaGlobal = ({
       </div>
       <div
         className={styles.locationContainer}
-        onClick={() => !paid && editarComandaGlobal(id)}
+        onClick={() => paid !== "true" && editarComandaGlobal(id)}
       >
-        {paid ? <HiArchive /> : <HiPencilAlt />}
+        {paid === "true" ? <HiArchive /> : <HiPencilAlt />}
       </div>
     </div>
   );

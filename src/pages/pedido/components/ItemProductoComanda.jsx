@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-import { BsFillCartCheckFill } from "react-icons/bs";
+import { BsFillCartCheckFill, BsFillXOctagonFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 
@@ -16,8 +16,10 @@ export default function ItemProductoComanda({ update }) {
     obtenerComandaActual,
     eliminarProducto,
     cambiarNombreMesa,
+    pagarComanda,
   } = useComandaActual();
   const { productos, obtenerProductos } = useProductos();
+  const [comandaPendientePago, setComandaPendientePago] = useState(false);
 
   useEffect(() => {
     obtenerProductos();
@@ -25,6 +27,9 @@ export default function ItemProductoComanda({ update }) {
 
   useEffect(() => {
     obtenerComandaActual();
+    if (comandaActual) {
+      setComandaPendientePago(comandaActual.paid === "wait");
+    }
   }, [update]);
 
   //Método que retorna el producto con el id solicitado
@@ -36,6 +41,13 @@ export default function ItemProductoComanda({ update }) {
   //Eliminar producto de la comanda
   const deleteItemHandle = (creationDate) => {
     eliminarProducto(creationDate).then(obtenerComandaActual());
+  };
+
+  const handlePagarComanda = () => {
+    pagarComanda().then(() => {
+      //Regresa a la pagina raiz "/"
+      window.location.href = "/";
+    });
   };
 
   return (
@@ -52,6 +64,7 @@ export default function ItemProductoComanda({ update }) {
                   className="inputMesa"
                   defaultValue={comandaActual.tableName}
                   onBlur={(evt) => cambiarNombreMesa(evt.target.value)}
+                  onFocus={(evt) => evt.target.select()}
                 />
               </div>
               <div className="icono">
@@ -70,8 +83,16 @@ export default function ItemProductoComanda({ update }) {
           </div>
           <div className="totalCuenta">
             <p>Total: ${comandaActual.total}</p>
-            <button className="button-3" role="button">
-              <BsFillCartCheckFill />
+            <button
+              className="button-3"
+              role="button"
+              onClick={handlePagarComanda}
+            >
+              {comandaPendientePago ? (
+                <BsFillXOctagonFill />
+              ) : (
+                <BsFillCartCheckFill />
+              )}
             </button>
           </div>
         </>

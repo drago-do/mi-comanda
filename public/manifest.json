@@ -1,32 +1,32 @@
 {
-    "theme_color": "#8d8dbf",
-    "background_color": "#afafaf",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Mi Comanda Virtual",
-    "short_name": "Mi Comanda",
-    "description": "App para gestionar tus pedidos y ordenes en tu restaurante.",
-    "icons": [
-        {
-            "src": "/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "theme_color": "var(--background-secondary)",
+  "background_color": "var(--background)",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Mi Comanda Virtual",
+  "short_name": "Mi Comanda",
+  "description": "App para gestionar tus pedidos y ordenes en tu restaurante.",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

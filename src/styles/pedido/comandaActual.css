@@ -24,7 +24,7 @@
   width: 60px;
   height: 60px;
   border-radius: var(--border-radius);
-  background-color: var(--background);
+  background-color: #fff;
   object-fit: scale-down;
   margin-right: 10px;
 }

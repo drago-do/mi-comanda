@@ -55,6 +55,7 @@ export function useComandaActual() {
     });
   };
 
+  // TODO mover esta fracción de código a la aplicación de orden-sync
   const modificarEstadoProducto = (creationDate) => {
     return new Promise((resolve, reject) => {
       let comanda = JSON.parse(localStorage.getItem("comandaActual"));
@@ -84,6 +85,20 @@ export function useComandaActual() {
       } catch (error) {
         reject(error);
       }
+    });
+  };
+  // TODO **********************************************************
+
+  const pagarComanda = () => {
+    return new Promise((resolve, reject) => {
+      let comanda = JSON.parse(localStorage.getItem("comandaActual"));
+      //Cambiar estado de la comanda a pendiente de pago
+      comanda.paid = comanda.paid === "wait" ? "pending" : "wait";
+      //Guardar comanda
+      localStorage.setItem("comandaActual", JSON.stringify(comanda));
+      setComandaActual(comanda);
+      //Redirigir a "/"
+      resolve(comanda);
     });
   };
 
@@ -188,6 +203,7 @@ export function useComandaActual() {
     comandaPagada,
     modificarEstadoProducto,
     enviarNuevaComanda,
+    pagarComanda,
     cambiarNombreMesa,
   };
 }

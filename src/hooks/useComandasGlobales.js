@@ -11,7 +11,6 @@ export function useComandasGlobales() {
       axios
         .get(`${urlAPI}order`)
         .then((res) => {
-          console.log(res);
           setComandasGlobales(res.data);
           //Guardar las comandas globales en el almacenamiento local
           localStorage.setItem("comandasGlobales", JSON.stringify(res.data));
