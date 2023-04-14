@@ -58,6 +58,21 @@ body {
   color: var(--foreground);
   background-color: var(--background);
 }
+h1 {
+  font-size: var(--font-h1-size);
+}
+h2 {
+  font-size: var(--font-h2-size);
+}
+h3 {
+  font-size: var(--font-h3-size);
+}
+h4 {
+  font-size: var(--font-h4-size);
+}
+h5 {
+  font-size: var(--font-h5-size);
+}
 
 a {
   color: inherit;
