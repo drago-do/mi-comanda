@@ -18,11 +18,11 @@ export default function ItemProductoComanda({ update }) {
     cambiarNombreMesa,
     pagarComanda,
   } = useComandaActual();
-  const { productos, obtenerProductos } = useProductos();
+  const { productos, getProducts } = useProductos();
   const [comandaPendientePago, setComandaPendientePago] = useState(false);
 
   useEffect(() => {
-    obtenerProductos();
+    getProducts();
   }, []);
 
   useEffect(() => {

@@ -5,52 +5,45 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 
 import ListaComandasGlobales from "../components/ListaComandasGlobales";
-import UserBanner from "../components/UserBanner";
+import NavigationBar from "../components/NavigationBar";
 import SwipeUpDownMenu from "../components/SwipeUpDownMenu";
 
 import { useComandaActual } from "../hooks/useComandaActual";
 
-import { AiFillCaretUp } from "react-icons/ai";
 import styles from "./../styles/index/index.module.css";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();
 
-  const [update, setUpdate] = useState(false);
-
-  const [avatar, setAvatar] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [id, setId] = useState(null);
-
   useEffect(() => {
-    obtenerDatosUsuario();
     enviarNuevaComanda();
+    document.oncontextmenu = new Function("return false;");
   }, []);
-
-  const obtenerDatosUsuario = () => {
-    setAvatar(Cookies.get("avatar"));
-    setUserName(Cookies.get("username"));
-    setId(Cookies.get("id"));
-  };
 
   return (
     <>
-      {id ? <UserBanner avatar={avatar} username={userName} /> : ""}
-
-      <div className={styles.container}>
-        <div className={styles.containerLogo}>
-          <Link href="./sesion/iniciarSesion">
-            <img src="/logoC.png" alt="Logo" className={styles.logo} />
-          </Link>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <NavigationBar />
+        <div className={styles.container}>
+          <div className={styles.containerLogo}>
+            <Link href="./sesion/iniciarSesion">
+              <img src="/logoC.png" alt="Logo" className={styles.logo} />
+            </Link>
+          </div>
         </div>
-      </div>
-      <SwipeUpDownMenu
-        tituloMenu="Historial de pedidos"
-        iconoSuperior={AiFillCaretUp}
-        onClick={() => setUpdate(!update)}
-      >
-        <ListaComandasGlobales update={update} />
-      </SwipeUpDownMenu>
+        <SwipeUpDownMenu>
+          <ListaComandasGlobales />
+        </SwipeUpDownMenu>
+      </ThemeProvider>
     </>
   );
 }

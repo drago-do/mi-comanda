@@ -13,7 +13,7 @@ import { useUsers } from "../../hooks/useUsers";
 
 export default function IniciarSesion() {
   //Hooks personalizados
-  const { users, getUsers } = useUsers();
+  const { users, getUsers, openUserSesion } = useUsers();
 
   const [usuario, setUsuario] = useState("");
   const [contraseña, setContraseña] = useState("");
@@ -29,19 +29,13 @@ export default function IniciarSesion() {
   const verificarContraseña = () => {
     if (contraseña === usuario.password) {
       //Guardar "usuario" en una cookie
-      guardarCookies();
+      openUserSesion(usuario).then(
+        (_) => (window.location.href = "/pedido/iniciarPedido")
+      );
       //redirigir a pagina de pedido
-      window.location.href = "/pedido/iniciarPedido";
     } else {
       contraseñaIncorrectaAnimacion();
     }
-  };
-
-  const guardarCookies = () => {
-    Cookies.set("username", usuario.username);
-    Cookies.set("role", usuario.role);
-    Cookies.set("id", usuario._id);
-    Cookies.set("avatar", usuario.avatar);
   };
 
   const contraseñaIncorrectaAnimacion = () => {
@@ -108,7 +102,7 @@ export default function IniciarSesion() {
               <Usuario
                 nombre={usuarioActual.username}
                 estaActivo={usuario.username === usuarioActual.username}
-                avatar={usuarioActual.avatar}
+                img={usuarioActual.avatar}
                 key={usuarioActual._id}
               />
             ))

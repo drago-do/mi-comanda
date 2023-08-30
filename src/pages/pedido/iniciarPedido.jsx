@@ -8,18 +8,16 @@ import { useCategorias } from "./../../hooks/useCategorias";
 
 export default function IniciarPedido() {
   const { categorias, obtenerCategorias } = useCategorias();
-  const { productos, obtenerProductos } = useProductos();
+  const { productos, getProducts } = useProductos();
 
   useEffect(() => {
-    obtenerProductos();
+    getProducts();
     obtenerCategorias();
   }, []);
 
   return (
     <IniciarPedidoLayout>
-      <div
-        className="contenedorCategoriasProductos"
-      >
+      <div className="contenedorCategoriasProductos">
         {categorias ? (
           categorias.map(
             (category, index) =>

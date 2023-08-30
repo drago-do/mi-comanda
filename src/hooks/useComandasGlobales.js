@@ -4,14 +4,11 @@ import axios from "axios";
 const urlAPI = process.env.API_URL;
 
 export function useComandasGlobales() {
-  const [comandasGlobales, setComandasGlobales] = useState(null);
-
   const obtenerComandasGlobales = async () => {
     return new Promise((resolve, reject) => {
       axios
         .get(`${urlAPI}order`)
         .then((res) => {
-          setComandasGlobales(res.data);
           //Guardar las comandas globales en el almacenamiento local
           localStorage.setItem("comandasGlobales", JSON.stringify(res.data));
           //Guardar la fecha de guardado de las comandas globales en el almacenamiento local
@@ -24,6 +21,7 @@ export function useComandasGlobales() {
     });
   };
 
+
   const editarComandaGlobal = (id) => {
     obtenerComandasGlobales().then((comandas) => {
       const comandaActual = comandas.find((comanda) => comanda.id === id);
@@ -34,9 +32,52 @@ export function useComandasGlobales() {
     });
   };
 
+  const marcarComandaComoCompleta = (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${urlAPI}order/complete/${id}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        });
+    });
+  };
+
+  const marcarComandaComoPagada = (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${urlAPI}order/pay/${id}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        });
+    });
+  };
+
+  const terminarDiaDeTrabajo = () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`${urlAPI}order/endDay/`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        });
+    });
+  };
+
   return {
-    comandasGlobales,
     editarComandaGlobal,
     obtenerComandasGlobales,
+    marcarComandaComoCompleta,
+    marcarComandaComoPagada,
   };
 }

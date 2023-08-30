@@ -8,17 +8,23 @@ import ItemProductoComanda from "./components/ItemProductoComanda";
 
 export default function IniciarPedidoLayout({ children }) {
   const [update, setUpdate] = useState(false);
+
+  const handleUpdate = () => {
+    setUpdate(!update);
+  };
+
   return (
     <>
       <NavigationBar tituloActividad="Lista de productos" />
       {children}
-      <SwipeUpDownMenu
-        tituloMenu="Comanda Actual"
-        iconoSuperior={AiFillCaretUp}
-        onClick={() => setUpdate(!update)}
-      >
-        <ItemProductoComanda update={update} />
-      </SwipeUpDownMenu>
+      <div onClick={handleUpdate}>
+        <SwipeUpDownMenu
+          tituloMenu="Comanda Actual"
+          iconoSuperior={AiFillCaretUp}
+        >
+          <ItemProductoComanda update={update} />
+        </SwipeUpDownMenu>
+      </div>
     </>
   );
 }

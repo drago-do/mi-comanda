@@ -7,7 +7,7 @@ const API_URL = process.env.API_URL;
 export function useProductos() {
   const [productos, setProductos] = useState(null);
 
-  const obtenerProductos = () => {
+  const getProducts = () => {
     return new Promise(async (resolve, reject) => {
       try {
         const cachedProductos = JSON.parse(localStorage.getItem("productos"));
@@ -29,5 +29,5 @@ export function useProductos() {
     });
   };
 
-  return { productos, obtenerProductos };
+  return { productos, getProducts };
 }

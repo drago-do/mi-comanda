@@ -6,41 +6,37 @@ import { useUsers } from "./../../hooks/useUsers";
 import { useProductos } from "./../../hooks/useProductos";
 
 export default function Bebidas() {
-  const { comandasGlobales, editarComandaGlobal, obtenerComandasGlobales } =
-    useComandasGlobales();
+  const { obtenerComandasGlobales } = useComandasGlobales();
 
-  const [comandas, setComandas] = useState();
   const [comandasTerminadas, setComandasTerminadas] = useState();
   const [comandasPendientes, setComandasPendientes] = useState();
 
   useEffect(() => {
     obtenerComandasGlobales().then((data) => {
-      setComandas(data);
+      let comandas = data.reverse();
+      separarComandas(comandas);
     });
   }, []);
 
-  useEffect(() => {
-    if (comandas !== undefined) {
-      //ordenar de fin a inicio comandas
-      setComandas(comandas.reverse());
-      separarComandas();
-    }
-  }, [comandas]);
-
-  const separarComandas = () => {
-    let comandasPendientes = [];
-    let comandasTerminadas = [];
-    comandas.map((comanda) => {
-      if (comanda.fullDeliver && comanda.paid === "true") {
-        if (comandasTerminadas.length < 6) {
-          comandasTerminadas.push(comanda);
+  const separarComandas = (comandas) => {
+    const { pendientes, terminadas } = comandas.reduce(
+      (result, comanda) => {
+        if (
+          comanda.fullDeliver &&
+          comanda.paid === "true" &&
+          result.terminadas.length < 3
+        ) {
+          result.terminadas.push(comanda);
+        } else {
+          result.pendientes.push(comanda);
         }
-      } else {
-        comandasPendientes.push(comanda);
-      }
-    });
-    setComandasPendientes(comandasPendientes);
-    setComandasTerminadas(comandasTerminadas);
+        return result;
+      },
+      { pendientes: [], terminadas: [] }
+    );
+
+    setComandasPendientes(pendientes);
+    setComandasTerminadas(terminadas);
   };
 
   return (
@@ -60,14 +56,14 @@ export default function Bebidas() {
 
 const ContenedorBebidas = ({ bebidasPendientes, comandas }) => {
   return (
-    <div className={`flex flex-col items-start justify-start mx-5`}>
+    <div className={`flex flex-col items-start justify-start mx-3`}>
       <h2 className="font-medium">
         {bebidasPendientes ? "Bebidas Pendientes" : "Bebidas despachadas"}
       </h2>
       <div
         className="flex flex-col items-start justify-start w-full h-3/4 py-3 px-2 mb-4"
         style={{
-          border: "3px var(--foreground) solid",
+          border: "1px var(--foreground) solid",
           borderRadius: "var(--border-radius)",
           background: "var(--background-secondary",
         }}
@@ -94,12 +90,11 @@ const ItemBebida = ({ tableName, userId, products }) => {
   const [usuarios, setUsuarios] = useState();
   const [productos, setProductos] = useState();
   const { users, getUsers } = useUsers();
-  const { obtenerProductos } = useProductos();
-  console.log(products);
+  const { getProducts } = useProductos();
 
   useEffect(() => {
     getUsers().then((data) => setUsuarios(data));
-    obtenerProductos().then((data) => setProductos(data));
+    getProducts().then((data) => setProductos(data));
   }, []);
 
   useEffect(() => {
@@ -110,11 +105,12 @@ const ItemBebida = ({ tableName, userId, products }) => {
 
   const obtenerNombreMesero = () => {
     let nombreMesero = "";
-    usuarios.map((user) => {
-      if (user._id === userId) {
-        nombreMesero = user.username;
-      }
-    });
+    usuarios &&
+      usuarios.map((user) => {
+        if (user._id === userId) {
+          nombreMesero = user.username;
+        }
+      });
     setNombreMesero(nombreMesero);
   };
 

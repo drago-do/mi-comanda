@@ -14,10 +14,10 @@ export default function PageSubcategoria(props) {
   const [categoriaActual, setCategoriaActual] = useState(null);
 
   const { categorias, obtenerCategorias } = useCategorias();
-  const { productos, obtenerProductos } = useProductos();
+  const { productos, getProducts } = useProductos();
 
   useEffect(() => {
-    obtenerProductos();
+    getProducts();
     obtenerCategorias();
   }, []);
 
