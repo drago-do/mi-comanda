@@ -4,13 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useUsers } from "../hooks/useUsers";
-import { AiOutlineDown, AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineDown } from "react-icons/ai";
+import IconButton from "@mui/material/IconButton";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 
 import styles from "./../styles/index/components.module.css";
 import Cookies from "js-cookie";
 
-export default function NavigationBar() {
-  const [pathName, setPathName] = useState();
+export default function NavigationBar({ ownPathName }) {
+  const [pathName, setPathName] = useState(ownPathName || "Mi comanda");
 
   useEffect(() => {
     setPathName(window.location.pathname);
@@ -39,12 +41,15 @@ function DefaultNavigationBar({ pathName }) {
   //Función recibe un string, si el String contiene mas de 2 números regresa "Lista de productos", si no regresa el string
   const obtenerTitulo = (titulo) => {
     if (titulo) {
+      console.log("hey");
       const numbers = titulo.match(/\d/g);
       if (numbers && numbers.length > 2) {
         return "Lista de productos";
       } else {
         return titulo;
       }
+    } else {
+      return pathName.substring(1);
     }
   };
 
@@ -53,7 +58,13 @@ function DefaultNavigationBar({ pathName }) {
       <div onClick={handleClick}>
         <HiArrowLeft className={styles.NavigationBar__icon} />
       </div>
-      <Link href={"/pedido/iniciarPedido"}>{titulo}</Link>
+      <Link
+        href={"/pedido/iniciarPedido"}
+        style={{ textTransform: "capitalize" }}
+        className="text-xl"
+      >
+        {titulo}
+      </Link>
       <Link href="/">
         <HiHome className={styles.NavigationBar__icon} />
       </Link>
@@ -121,9 +132,11 @@ function UserInfoNavigationBar() {
             </span>
           </div>
         </div>
-        <div>
-          <AiOutlineSetting />
-        </div>
+        <IconButton aria-label="delete">
+          <Link href={"/configuraciones"}>
+            <SettingsApplicationsIcon style={{ fontSize: "3rem" }} />
+          </Link>
+        </IconButton>
       </div>
     </div>
   );

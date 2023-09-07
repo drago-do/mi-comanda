@@ -1,42 +1,44 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { HiArchive, HiPencilAlt, HiLocationMarker } from "react-icons/hi";
-import { useComandasGlobales } from "./../hooks/useComandasGlobales";
-import { useUsers } from "../hooks/useUsers";
-import { obtenerComandasGlobales } from "./../hooks/useComandasGlobales";
-import styles from "./../styles/index/ListaComandasGlobales.module.css";
+import CloseIcon from "@mui/icons-material/Close";
+import FunctionsIcon from "@mui/icons-material/Functions";
 import SwitchAccessShortcutAddIcon from "@mui/icons-material/SwitchAccessShortcutAdd";
 
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { useComandasGlobales } from "./../hooks/useComandasGlobales";
+import { useUsers } from "../hooks/useUsers";
+import styles from "./../styles/index/ListaComandasGlobales.module.css";
 
-export default function ListaComandasGlobales() {
- 
+export default function ListaComandasGlobales({ update }) {
   const { obtenerComandasGlobales } = useComandasGlobales();
-  const [comandasGlobales, setComandasGlobales] = useState(null);
-  const [forceUpdate, setForceUpdate] = useState(false);
+  const [comandasGlobales, setComandasGlobales] = useState([]);
   const [comandasAMostrar, setComandasAMostrar] = useState(5);
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   useEffect(() => {
     obtenerComandasGlobales().then((comandas) => setComandasGlobales(comandas));
-  }, [forceUpdate]);
+  }, [forceUpdate, update]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       handleForceUpdate();
-    }, 40000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [forceUpdate]);
 
   const handleForceUpdate = () => {
+    console.log("force update");
     setForceUpdate(!forceUpdate);
   };
 
@@ -46,72 +48,104 @@ export default function ListaComandasGlobales() {
 
   return (
     <div className={styles.mainContainer} onClick={handleForceUpdate}>
-      {/* comandas activas( pendiente, entregado) */}
-      {comandasGlobales &&
+      {comandasGlobales.length > 0 ? (
         comandasGlobales.map((comanda) => {
-          //Verificar si la comanda esta activa (comanda.paid == false)
           if (comanda.paid !== "true" || !comanda.fullDeliver) {
             return (
               <ItemComandaGlobal
                 key={comanda._id}
-                id={comanda.id}
-                _id={comanda._id}
-                tableName={comanda.tableName}
-                location={comanda.location}
-                fullDeliver={comanda.fullDeliver}
-                total={comanda.total}
-                paid={comanda.paid}
-                fullObjet={comanda}
+                comanda={comanda}
                 handleForceUpdate={handleForceUpdate}
               />
             );
           }
-        })}
+          return null;
+        })
+      ) : (
+        <section className="flex flex-col items-center w-3/4 my-12">
+          <Typography variant="h6">No tienes comandas activas.</Typography>
+          <Typography variant="caption">
+            Esperemos que pronto llegue gente.
+          </Typography>
+        </section>
+      )}
       {/* comandas finalizadas - pagadas*/}
       <div className={styles.separator}>
         <hr className={styles.line} />
         <p className={styles.textoSeparador}>Comandas finalizadas</p>
         <hr className={styles.line} />
       </div>
-      {comandasGlobales &&
-        comandasGlobales
-          .filter((comanda) => comanda.paid === "true" && comanda.fullDeliver)
-          .reverse()
-          .slice(0, comandasAMostrar)
-          .map((comanda) => (
-            <ItemComandaGlobal
-              key={comanda._id}
-              id={comanda.id}
-              _id={comanda._id}
-              tableName={comanda.tableName}
-              location={comanda.location}
-              fullDeliver={comanda.fullDeliver}
-              paid={comanda.paid}
-              total={comanda.total}
-              handleForceUpdate={handleForceUpdate}
-            />
-          ))}
-      <Button
-        variant="outlined"
-        startIcon={<SwitchAccessShortcutAddIcon />}
-        onClick={handleShowMore}
+      <ComandasTerminadas
+        comandasGlobales={comandasGlobales}
+        comandasAMostrar={comandasAMostrar}
+        handleForceUpdate={handleForceUpdate}
+      />
+      <section
+        className={`flex flex-nowrap w-full justify-${
+          comandasGlobales.length > comandasAMostrar ? "between" : "center"
+        }`}
       >
-        Mostrar más
-      </Button>
+        {comandasGlobales.length > comandasAMostrar && (
+          <Button
+            variant="outlined"
+            startIcon={<SwitchAccessShortcutAddIcon />}
+            onClick={handleShowMore}
+          >
+            Mostrar más
+          </Button>
+        )}
+        {comandasGlobales.some(
+          (comanda) => comanda.paid === "true" && comanda.fullDeliver
+        ) && (
+          <Link href={"/admin/corte"}>
+            <Button
+              variant="contained"
+              startIcon={<FunctionsIcon />}
+              color="error"
+            >
+              Realizar Corte
+            </Button>
+          </Link>
+        )}
+      </section>
     </div>
   );
 }
 
-const ItemComandaGlobal = ({
-  id,
-  _id,
-  tableName,
-  location,
-  fullDeliver,
-  paid,
-  total,
+const ComandasTerminadas = ({
+  comandasGlobales,
+  comandasAMostrar,
   handleForceUpdate,
 }) => {
+  const comandasTerminadas = comandasGlobales
+    .filter((comanda) => comanda.paid === "true" && comanda.fullDeliver)
+    .reverse()
+    .slice(0, comandasAMostrar);
+
+  return (
+    <>
+      {comandasTerminadas.length > 0 ? (
+        comandasTerminadas.map((comanda) => (
+          <ItemComandaGlobal
+            key={comanda._id}
+            comanda={comanda}
+            handleForceUpdate={handleForceUpdate}
+          />
+        ))
+      ) : (
+        <section className="flex flex-col items-center w-3/4 my-12">
+          <Typography variant="h6">No hay pedidos finalizados.</Typography>
+          <Typography variant="caption" className="text-center">
+            Para finalizar un pedido tienes que marcarlo como pagado y
+            entregado.
+          </Typography>
+        </section>
+      )}
+    </>
+  );
+};
+
+const ItemComandaGlobal = ({ comanda, handleForceUpdate }) => {
   const {
     editarComandaGlobal,
     marcarComandaComoCompleta,
@@ -121,11 +155,10 @@ const ItemComandaGlobal = ({
   const [open, setOpen] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [messageSnackBar, setMessageSnackBar] = useState("");
-
   const [userInSesion, setUserInSesion] = useState(false);
 
   const handleClickOpenConfirmDialog = () => {
-    if (paid !== "true" && userInSesion) {
+    if (comanda.paid !== "true" && userInSesion) {
       setOpen(true);
     }
   };
@@ -139,21 +172,22 @@ const ItemComandaGlobal = ({
   };
 
   const handleCompleteOrder = () => {
-    setMessageSnackBar(`Orden completa. Mesa: ${tableName}`);
+    setMessageSnackBar(`Orden completa. Mesa: ${comanda.tableName}`);
     if (userInSesion) {
-      marcarComandaComoCompleta(_id).then((data) => {
+      marcarComandaComoCompleta(comanda._id).then((data) => {
         console.log(data);
         handleForceUpdate();
         handleSnackBar();
       });
     }
   };
+
   const handleCompletePay = () => {
-    setMessageSnackBar(`Orden pagada. Mesa: ${tableName}`);
-    marcarComandaComoPagada(_id).then((data) => {
+    setMessageSnackBar(`Orden pagada. Mesa: ${comanda.tableName}`);
+    marcarComandaComoPagada(comanda._id).then((data) => {
       console.log(data);
-      handleForceUpdate();
       setOpen(false);
+      handleForceUpdate();
       handleSnackBar();
     });
   };
@@ -182,49 +216,50 @@ const ItemComandaGlobal = ({
           <HiLocationMarker />
         </div>
         <div style={{ width: "60%" }}>
-          <h3 style={{ marginBottom: "5px" }}>{tableName}</h3>
+          <h3 style={{ marginBottom: "5px" }}>{comanda.tableName}</h3>
           <div className={styles.containerEstadoTotal}>
             <p
               className={`${styles.textEstadoTotal} ${
-                fullDeliver ? styles.full : styles.noFull
+                comanda.fullDeliver ? styles.full : styles.noFull
               } text-xs text-blue-600`}
               onClick={handleCompleteOrder}
             >
-              {fullDeliver ? "Entregado" : "Pendiente"}
+              {comanda.fullDeliver ? "Entregado" : "Pendiente"}
             </p>
-
             <p
               className={`${styles.textEstadoTotal} ${
-                paid === "true"
+                comanda.paid === "true"
                   ? styles.full
-                  : paid === "wait"
+                  : comanda.paid === "wait"
                   ? styles.wait
                   : styles.noFull
               }`}
               onClick={handleClickOpenConfirmDialog}
             >
-              {paid === "true"
+              {comanda.paid === "true"
                 ? "Pagado"
-                : paid === "wait"
+                : comanda.paid === "wait"
                 ? "Espera"
                 : "Falta pagar"}
             </p>
-            <p
-              className={`${styles.textEstadoTotal} ${styles.total}`}
-            >{`$ ${total}`}</p>
+            <p className={`${styles.textEstadoTotal} ${styles.total}`}>
+              {`$ ${comanda.total}`}
+            </p>
           </div>
         </div>
         <div
           className={styles.locationContainer}
-          onClick={() => paid !== "true" && editarComandaGlobal(id)}
+          onClick={() =>
+            comanda.paid !== "true" && editarComandaGlobal(comanda.id)
+          }
         >
-          {paid === "true" ? <HiArchive /> : <HiPencilAlt />}
+          {comanda.paid === "true" ? <HiArchive /> : <HiPencilAlt />}
         </div>
         <Dialog open={open} onClose={handleCloseConfirmDialog}>
-          <DialogTitle>{`Cambiar el estado de ${tableName}`}</DialogTitle>
+          <DialogTitle>{`Cambiar el estado de ${comanda.tableName}`}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Esto marcara como pagada la comanda.
+              Esto marcará como pagada la comanda.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

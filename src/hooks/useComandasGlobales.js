@@ -9,9 +9,6 @@ export function useComandasGlobales() {
       axios
         .get(`${urlAPI}order`)
         .then((res) => {
-          //Guardar las comandas globales en el almacenamiento local
-          localStorage.setItem("comandasGlobales", JSON.stringify(res.data));
-          //Guardar la fecha de guardado de las comandas globales en el almacenamiento local
           resolve(res.data);
         })
         .catch((error) => {
@@ -20,7 +17,6 @@ export function useComandasGlobales() {
         });
     });
   };
-
 
   const editarComandaGlobal = (id) => {
     obtenerComandasGlobales().then((comandas) => {
@@ -79,5 +75,6 @@ export function useComandasGlobales() {
     obtenerComandasGlobales,
     marcarComandaComoCompleta,
     marcarComandaComoPagada,
+    terminarDiaDeTrabajo,
   };
 }

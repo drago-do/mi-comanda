@@ -1,17 +1,12 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-
-import { BsFillCartCheckFill, BsFillXOctagonFill } from "react-icons/bs";
-import { AiFillDelete } from "react-icons/ai";
-import { HiLocationMarker } from "react-icons/hi";
-
 import { useProductos } from "./../../../hooks/useProductos";
 import { useComandaActual } from "./../../../hooks/useComandaActual";
+import { BsFillCartCheckFill, BsFillXOctagonFill } from "react-icons/bs";
+import { AiFillDelete } from "react-icons/ai";
 
 export default function ItemProductoComanda({ update }) {
-  //Custom hook.
-  var {
+  const {
     comandaActual,
     obtenerComandaActual,
     eliminarProducto,
@@ -32,20 +27,17 @@ export default function ItemProductoComanda({ update }) {
     }
   }, [update]);
 
-  //Método que retorna el producto con el id solicitado
   const obtenerProducto = (id) => {
     if (productos != null)
       return productos.find((producto) => producto._id === id);
   };
 
-  //Eliminar producto de la comanda
   const deleteItemHandle = (creationDate) => {
-    eliminarProducto(creationDate).then(obtenerComandaActual());
+    eliminarProducto(creationDate);
   };
 
   const handlePagarComanda = () => {
     pagarComanda().then(() => {
-      //Regresa a la pagina raiz "/"
       window.location.href = "/";
     });
   };
@@ -67,13 +59,9 @@ export default function ItemProductoComanda({ update }) {
                   onFocus={(evt) => evt.target.select()}
                 />
               </div>
-              <div className="icono">
-                <HiLocationMarker />
-              </div>
             </div>
             {comandaActual.products.map((producto, index) => (
               <Producto
-                index={index}
                 key={producto.creationDate}
                 producto={producto}
                 obtenerProducto={obtenerProducto}
@@ -112,39 +100,40 @@ export default function ItemProductoComanda({ update }) {
   );
 }
 
-// Nuevo componente Producto
-const Producto = ({ index, producto, obtenerProducto, deleteItemHandle }) => {
-  return (
-    <div key={producto.creationDate} className="producto">
-      <div className="infoProducto">
-        <p className="productoIndex">{index + 1}</p>
-        <Image
-          width={60}
-          height={60}
-          src={obtenerProducto(producto.id_mongo).image}
-          alt={obtenerProducto(producto.id_mongo).name}
-          className="productoImagen"
-        />
-        <div className="textoProducto">
-          <p className="productoTitulo">
-            {obtenerProducto(producto.id_mongo).name}
-          </p>
-          <div className="containerEstado">
-            <p className="textPrecioTam precio">
-              ${obtenerProducto(producto.id_mongo).price}{" "}
+const Producto = React.memo(
+  ({ producto, obtenerProducto, deleteItemHandle }) => {
+    return (
+      <div key={producto.creationDate} className="producto">
+        <div className="infoProducto">
+          <p className="productoIndex">*</p>
+          <Image
+            width={60}
+            height={60}
+            src={obtenerProducto(producto.id_mongo).image}
+            alt={obtenerProducto(producto.id_mongo).name}
+            className="productoImagen"
+          />
+          <div className="textoProducto">
+            <p className="productoTitulo">
+              {obtenerProducto(producto.id_mongo).name}
             </p>
-            <p className="textPrecioTam tam">
-              {obtenerProducto(producto.id_mongo).size}
-            </p>
+            <div className="containerEstado">
+              <p className="textPrecioTam precio">
+                ${obtenerProducto(producto.id_mongo).price}{" "}
+              </p>
+              <p className="textPrecioTam tam">
+                {obtenerProducto(producto.id_mongo).size}
+              </p>
+            </div>
           </div>
         </div>
+        <div
+          onClick={() => deleteItemHandle(producto.creationDate)}
+          className="icono"
+        >
+          <AiFillDelete style={{ fontSize: "2rem" }} />
+        </div>
       </div>
-      <div
-        onClick={() => deleteItemHandle(producto.creationDate)}
-        className="icono"
-      >
-        <AiFillDelete style={{ fontSize: "2rem" }} />
-      </div>
-    </div>
-  );
-};
+    );
+  }
+);

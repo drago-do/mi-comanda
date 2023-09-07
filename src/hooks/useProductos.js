@@ -29,5 +29,64 @@ export function useProductos() {
     });
   };
 
-  return { productos, getProducts };
+  const getProductById = (_id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const cachedProductos = JSON.parse(localStorage.getItem("productos"));
+        if (cachedProductos) {
+          setProductos(cachedProductos);
+        } else {
+          const response = await axios.get(`${API_URL}product`);
+          const nuevosProductos = response.data;
+          localStorage.setItem("productos", JSON.stringify(nuevosProductos));
+          setProductos(nuevosProductos);
+        }
+        // Obtener el producto con el mismo _id
+        const productoEncontrado = productos.find(
+          (producto) => producto._id === _id
+        );
+        if (productoEncontrado) {
+          resolve(productoEncontrado); // Resolver la promesa con los detalles del producto
+        } else {
+          reject(false); // Rechazar la promesa si no se encuentra el producto
+        }
+      } catch (error) {
+        console.error(error);
+        setProductos(null);
+        reject(error);
+      }
+    });
+  };
+
+  const getProductNameById = (_id) => {
+    return new Promise(async (resolve, reject) => {
+      let listaProductos;
+      try {
+        const listaProductos = JSON.parse(localStorage.getItem("productos"));
+        if (listaProductos) {
+          setProductos(listaProductos);
+        } else {
+          const response = await axios.get(`${API_URL}product`);
+          listaProductos = response.data;
+          localStorage.setItem("productos", JSON.stringify(listaProductos));
+          setProductos(listaProductos);
+        }
+        // Obtener el producto con el mismo _id
+        const productoEncontrado = listaProductos.find(
+          (producto) => producto._id === _id
+        );
+        if (productoEncontrado) {
+          resolve(productoEncontrado.name); // Resolver la promesa con los detalles del producto
+        } else {
+          reject(false); // Rechazar la promesa si no se encuentra el producto
+        }
+      } catch (error) {
+        console.error(error);
+        setProductos(null);
+        reject(error);
+      }
+    });
+  };
+
+  return { productos, getProducts, getProductNameById, getProductById };
 }

@@ -20,8 +20,14 @@ const darkTheme = createTheme({
     mode: "dark",
   },
 });
+
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();
+  const [update, setUpdate] = useState(false);
+
+  const handleUpdate = () => {
+    setUpdate(!update);
+  };
 
   useEffect(() => {
     enviarNuevaComanda();
@@ -35,14 +41,21 @@ export default function Page() {
         <NavigationBar />
         <div className={styles.container}>
           <div className={styles.containerLogo}>
-            <Link href="./sesion/iniciarSesion">
-              <img src="/logoC.png" alt="Logo" className={styles.logo} />
+            <Link
+              style={{
+                filter: "drop-shadow(10px 10px 50px rgba(255, 255, 255, 0.5))",
+              }}
+              href="./sesion/iniciarSesion"
+            >
+              <img src="/logo.png" alt="Logo" className={styles.logo} />
             </Link>
           </div>
         </div>
-        <SwipeUpDownMenu>
-          <ListaComandasGlobales />
-        </SwipeUpDownMenu>
+        <div onClick={handleUpdate}>
+          <SwipeUpDownMenu>
+            <ListaComandasGlobales update={update} />
+          </SwipeUpDownMenu>
+        </div>
       </ThemeProvider>
     </>
   );

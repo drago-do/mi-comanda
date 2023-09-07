@@ -81,7 +81,7 @@ function SwipeUpDownMenu(props) {
           <AiFillCaretUp />
         </div>
         <div className={styles.swipeUpDownMenu__header__title}>
-          <h1>{pathName && pathName === "/" ? "Lista de ordenes" : "Orden"}</h1>
+          <h2>{pathName && pathName === "/" ? "Lista de ordenes" : "Orden"}</h2>
           <h3>Toca o desliza para {siguienteAccion}</h3>
         </div>
       </div>
