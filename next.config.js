@@ -2,10 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    // HOST = "https://mi-comanda.vercel.app",
-    //API_URL: "https://mi-negocio-api.vercel.app/",
-    HOST_ULR: "http://127.0.0.1:3000",
-    API_URL: "http://127.0.0.1:3001/",
+    HOST: "https://mi-comanda.vercel.app",
+    API_URL: "https://mi-negocio-api.vercel.app/",
+    //HOST_ULR: "http://127.0.0.1:3000",
+    //API_URL: "http://127.0.0.1:3001/",
   },
   images: {
     remotePatterns: [
