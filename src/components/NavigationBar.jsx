@@ -133,7 +133,7 @@ function UserInfoNavigationBar() {
           </div>
         </div>
         <IconButton aria-label="delete">
-          <Link href={"/configuraciones"}>
+          <Link href={"/#"}>
             <SettingsApplicationsIcon style={{ fontSize: "3rem" }} />
           </Link>
         </IconButton>
