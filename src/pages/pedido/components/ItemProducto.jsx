@@ -43,7 +43,7 @@ export default function ItemProducto({
             />
             <div className="nombreDescripcion">
               <h3 className="productoTitulo">{nombre}</h3>
-              <span style={{ color: "blue" }}>{size}</span>
+              <span>{size}</span>
               <p>{descripcion}</p>
             </div>
           </div>

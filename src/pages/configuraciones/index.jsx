@@ -17,19 +17,19 @@ export default function index() {
           icon={<AccountCircleIcon />}
           mainText={"Configuración de tu perfil"}
           secondaryText={"Cambio de contraseña, foto..."}
-          link={"/configuracion/perfil"}
+          link={"/configuraciones/perfil"}
         />
         <ListItem
           icon={<ShoppingBagIcon />}
           mainText={"Configuración de productos"}
           secondaryText={"Añadir categorias, productos, modificar..."}
-          link={"/configuracion/productos"}
+          link={"/configuraciones/productos"}
         />
         <ListItem
           icon={<DeleteSweepIcon />}
           mainText={"Eliminar datos"}
           secondaryText={"Elimina datos temporales, cache..."}
-          link={"/configuracion/eliminar"}
+          link={"/configuraciones/eliminar"}
         />
       </Container>
     </div>
