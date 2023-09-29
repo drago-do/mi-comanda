@@ -21,6 +21,7 @@ const darkTheme = createTheme({
   },
 });
 
+//New version
 export default function Page() {
   const { enviarNuevaComanda } = useComandaActual();
   const [update, setUpdate] = useState(false);
